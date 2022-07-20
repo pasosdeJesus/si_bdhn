@@ -1356,6 +1356,7 @@ CREATE TABLE public.sip_departamento (
     observaciones character varying(5000) COLLATE public.es_co_utf_8,
     codiso character varying(6),
     catiso character varying(64),
+    codreg integer,
     CONSTRAINT departamento_check CHECK (((fechadeshabilitacion IS NULL) OR (fechadeshabilitacion >= fechacreacion)))
 );
 
@@ -1388,6 +1389,7 @@ CREATE TABLE public.sip_municipio (
     id_departamento integer,
     id integer DEFAULT nextval('public.sip_municipio_id_seq'::regclass) NOT NULL,
     observaciones character varying(5000) COLLATE public.es_co_utf_8,
+    codreg integer,
     CONSTRAINT municipio_check CHECK (((fechadeshabilitacion IS NULL) OR (fechadeshabilitacion >= fechacreacion)))
 );
 
@@ -1883,6 +1885,27 @@ CREATE SEQUENCE public.heb412_gen_plantillahcr_id_seq
 --
 
 ALTER SEQUENCE public.heb412_gen_plantillahcr_id_seq OWNED BY public.heb412_gen_plantillahcr.id;
+
+
+--
+-- Name: hommunhn; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.hommunhn AS
+ SELECT DISTINCT m.id AS mid1,
+    d.id AS did1,
+    m.nombre AS m1,
+    d.nombre AS d1,
+    m2.nombre AS m2,
+    d2.nombre AS d2,
+    d2.id AS did2,
+    m2.id AS mid2
+   FROM (((public.sip_municipio m
+     JOIN public.sip_departamento d ON ((d.id = m.id_departamento)))
+     JOIN public.sip_departamento d2 ON ((d.id = (d2.id + 99940))))
+     JOIN public.sip_municipio m2 ON (((m2.id_departamento = d2.id) AND ((public.unaccent((m2.nombre)::text) = public.unaccent((m.nombre)::text)) OR ((m.id = 100008) AND (m2.id = 1549))))))
+  WHERE ((m.id >= 100001) AND (m.id <= 100302))
+  ORDER BY m.id;
 
 
 --
@@ -8432,6 +8455,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220428145059'),
 ('20220525122150'),
 ('20220601111520'),
-('20220613224844');
+('20220613224844'),
+('20220713200101'),
+('20220713200444'),
+('20220719111148'),
+('20220720153856'),
+('20220720161828');
 
 
