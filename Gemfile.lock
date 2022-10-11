@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/pasosdeJesus/apo214.git
-  revision: e5a7f37acc99b25e1b2476e7f3ea3792c2f231e6
+  revision: 3801bf6256d992bca952ef569bd1053e88ac3ac7
   branch: main
   specs:
     apo214 (2.1a1)
@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/pasosdeJesus/heb412_gen.git
-  revision: 914077be2656548ab623c4cb718b7d1a51f514ff
+  revision: 046d30d050ae6998831c834c32d9c24fb477cf45
   branch: main
   specs:
     heb412_gen (2.1a1)
@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: https://github.com/pasosdeJesus/mr519_gen.git
-  revision: 0bd30b7f15f632451649e3b12bb7967dc291592f
+  revision: 3a44af73b38d1648daa07aebe52e656b877a915e
   branch: main
   specs:
     mr519_gen (2.1a1)
@@ -48,7 +48,7 @@ GIT
 
 GIT
   remote: https://github.com/pasosdeJesus/sip.git
-  revision: 0edcb5f90cc658042b5636950d5d21aa91919088
+  revision: 027ecb645b800f94be73f3c4643110b06122f87d
   branch: main
   specs:
     sip (2.1a2)
@@ -66,7 +66,7 @@ GIT
 
 GIT
   remote: https://github.com/pasosdeJesus/sivel2_gen.git
-  revision: f704159d4b5f9099710785dbc300efa567b9cac9
+  revision: fa25139f0982edb3874638d0e8e228653c21800a
   branch: main
   specs:
     sivel2_gen (2.1a2)
@@ -187,7 +187,6 @@ GEM
     choice (0.2.0)
     cldr-plurals-runtime-rb (1.1.0)
     climate_control (0.2.0)
-    cliver (0.3.2)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 5.2.0)
@@ -200,9 +199,9 @@ GEM
     concurrent-ruby (1.1.10)
     connection_pool (2.3.0)
     crass (1.0.6)
-    cuprite (0.13)
-      capybara (>= 2.1, < 4)
-      ferrum (~> 0.11.0)
+    cuprite (0.14.2)
+      capybara (~> 3.0)
+      ferrum (~> 0.12.0)
     debug (1.6.2)
       irb (>= 1.3.6)
       reline (>= 0.3.1)
@@ -219,9 +218,9 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    dry-configurable (0.15.0)
-      concurrent-ruby (~> 1.0)
+    dry-configurable (0.16.0)
       dry-core (~> 0.6)
+      zeitwerk (~> 2.6)
     dry-container (0.11.0)
       concurrent-ruby (~> 1.0)
     dry-core (0.8.1)
@@ -231,7 +230,7 @@ GEM
     dry-logic (1.2.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.5, >= 0.5)
-    dry-schema (1.10.5)
+    dry-schema (1.10.6)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.13, >= 0.13.0)
       dry-core (~> 0.5, >= 0.5)
@@ -249,10 +248,10 @@ GEM
       ruby-graphviz
     erubi (1.11.0)
     execjs (2.8.1)
-    ferrum (0.11)
+    ferrum (0.12)
       addressable (~> 2.5)
-      cliver (~> 0.3)
       concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
       websocket-driver (>= 0.6, < 0.8)
     ffi (1.15.5)
     globalid (1.0.0)
@@ -264,7 +263,7 @@ GEM
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-console (0.5.11)
-    irb (1.4.1)
+    irb (1.4.2)
       reline (>= 0.3.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
@@ -288,7 +287,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minitest (5.16.3)
-    msgpack (1.5.6)
+    msgpack (1.6.0)
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
@@ -364,7 +363,7 @@ GEM
     redcarpet (3.5.1)
     redis (5.0.5)
       redis-client (>= 0.9.0)
-    redis-client (0.9.0)
+    redis-client (0.10.0)
       connection_pool
     regexp_parser (2.6.0)
     reline (0.3.1)
@@ -437,6 +436,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webrick (1.7.0)
     websocket (1.2.9)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -444,7 +444,7 @@ GEM
     will_paginate (3.3.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.1)
 
 PLATFORMS
   x86_64-openbsd
@@ -509,4 +509,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   2.3.22
+   2.3.23
