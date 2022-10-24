@@ -56,6 +56,5 @@ $DOAS su - ${USUARIO_AP} -c "cd $DIRAP;
     SIVEL2_MAPAOSM_DIASATRAS=\"${SIVEL2_MAPAOSM_DIASATRAS}\" \
     SIVEL2_MAPAOSM_LATINICIAL=\"${SIVEL2_MAPAOSM_LATINICIAL}\" \
     SIVEL2_MAPAOSM_LONGINICIAL=\"${SIVEL2_MAPAOSM_LONGINICIAL}\" \
-    SIVEL2_PAIS=\"${SIVEL2_PAIS}\" \
     bundle exec unicorn_rails \
       -c ${DIRAP}/config/unicorn.conf.minimal.rb  -E production -D"
