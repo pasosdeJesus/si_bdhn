@@ -43,7 +43,7 @@ config/credentials.yml.enc
 .env
 *.cp
 app/assets/builds/
-app/javascript/controllers/sip
+app/javascript/controllers/msip
 app/javascript/controllers/mr519_gen
 app/javascript/controllers/heb412_gen
 app/javascript/controllers/cor1440_gen

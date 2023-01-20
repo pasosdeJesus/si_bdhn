@@ -5,8 +5,8 @@ class Ability  < Apo214::Ability
 
 
   def tablasbasicas
-    r = (Sip::Ability::BASICAS_PROPIAS - 
-         [['Sip', 'oficina']]
+    r = (Msip::Ability::BASICAS_PROPIAS - 
+         [['Msip', 'oficina']]
         ) + Sivel2Gen::Ability::BASICAS_PROPIAS - [
           ['Sivel2Gen', 'actividadoficio'],
           ['Sivel2Gen', 'escolaridad'],
@@ -23,7 +23,7 @@ class Ability  < Apo214::Ability
     can :contar, Sivel2Gen::Caso
     if usuario && usuario.rol then
       can [:read, :update], Mr519Gen::Encuestausuario
-      if usuario && usuario.sip_grupo.pluck(:id).include?(
+      if usuario && usuario.msip_grupo.pluck(:id).include?(
           GRUPO_DESAPARICION_CASOS)
         can :pestanadesaparicion, Sivel2Gen::Caso
         cannot :solocambiaretiquetas, Sivel2Gen::Caso
