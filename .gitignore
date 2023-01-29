@@ -52,3 +52,5 @@ app/javascript/controllers/sivel2_gen
 app/javascript/controllers/apo214
 public/bdhn/si
 app/views/msip/hogar/_local.html.erb
+cobertura-sistema/
+cobertura-unitarias/
