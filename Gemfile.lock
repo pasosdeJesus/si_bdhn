@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/apo214.git
-  revision: 0566ccda5eacf38ced8c0c3abaae56cb3ff553b1
+  revision: bd47bbd4dd91c295ff0bf962d57a5e9bddeeebd4
   branch: main
   specs:
     apo214 (2.2.0.beta2)
@@ -372,7 +372,7 @@ GEM
       redis-client (>= 0.9.0)
     redis-client (0.14.1)
       connection_pool
-    regexp_parser (2.8.0)
+    regexp_parser (2.8.1)
     reline (0.3.5)
       io-console (~> 0.5)
     responders (3.1.0)
