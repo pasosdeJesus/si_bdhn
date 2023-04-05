@@ -35,10 +35,10 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/apo214.git
-  revision: bdf9d1b05e1cfd7bf5fe9fe2ebfa6a3cd65607bb
+  revision: a390486d6c904fe4bb5fe7ec9c940b3eb393e384
   branch: conv2
   specs:
-    apo214 (2.2.0.beta1)
+    apo214 (2.2.0.beta2)
       msip
       rails
 

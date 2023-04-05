@@ -344,7 +344,7 @@ Ruta utilizada para listar ubicaciones según parámetro de tabla que puede ser 
 
 ##### Ejemplo url
 > ```javascript
->  curl -X GET http://nuevo.nocheyniebla.org:3400/sivel2/casos/lista?tabla="departamento"&id_pais=170
+>  curl -X GET http://nuevo.nocheyniebla.org:3400/sivel2/casos/lista?tabla="departamento"&pais_id=170
 > ```
 
 ##### Ejemplo de respuestas
@@ -540,13 +540,13 @@ Para mostrar un reporte JSON de varias víctimas, se ha optado por solo mostrar 
 	- mesnac: Mes de nacimiento
 	- dianac: Día de nacimiento
 	- numerodocumento: Número de documento
-	- id_pais: Identificación del país de nacimiento
-	- id_departamento: Identificación del departamento de nacimiento
-	- id_municipio: Identificación del municipio de nacimiento
-	- id_clase: Identificación del centro poblado de nacimiento
+	- pais_id: Identificación del país de nacimiento
+	- departamento_id: Identificación del departamento de nacimiento
+	- municipio_id: Identificación del municipio de nacimiento
+	- clase_id: Identificación del centro poblado de nacimiento
 	
 	```json
-	[{"id":253110,"nombres":"Alejo","apellidos":"Cruz","anionac":1998,"mesnac":3,"dianac":5,"sexo":"S","numerodocumento":"104524","created_at":"2021-06-22T10:09:25.262-05:00","updated_at":"2021-06-22T10:09:25.262-05:00","id_pais":170,"nacionalde":null,"tdocumento_id":1,"id_departamento":null,"id_municipio":null,"id_clase":null}]
+	[{"id":253110,"nombres":"Alejo","apellidos":"Cruz","anionac":1998,"mesnac":3,"dianac":5,"sexo":"S","numerodocumento":"104524","created_at":"2021-06-22T10:09:25.262-05:00","updated_at":"2021-06-22T10:09:25.262-05:00","pais_id":170,"nacionalde":null,"tdocumento_id":1,"departamento_id":null,"municipio_id":null,"clase_id":null}]
 	```
 </details>
 
