@@ -892,7 +892,7 @@ CREATE TABLE public.apo214_lugarpreliminar (
     nombreusuario character varying,
     organizacion character varying,
     ubicacionpre_id integer,
-    id_persona integer,
+    persona_id integer,
     parentezco character varying,
     grabacion boolean,
     telefono character varying,
@@ -955,8 +955,8 @@ ALTER SEQUENCE public.apo214_lugarpreliminar_id_seq OWNED BY public.apo214_lugar
 
 CREATE TABLE public.apo214_propietario (
     id bigint NOT NULL,
-    id_lugarpreliminar integer,
-    id_persona integer,
+    lugarpreliminar_id integer,
+    persona_id integer,
     telefono character varying,
     observaciones character varying(5000)
 );
@@ -7195,7 +7195,7 @@ ALTER TABLE ONLY public.sivel2_gen_filiacion_victimacolectiva
 --
 
 ALTER TABLE ONLY public.apo214_propietario
-    ADD CONSTRAINT fk_rails_0425bff6ee FOREIGN KEY (id_persona) REFERENCES public.msip_persona(id);
+    ADD CONSTRAINT fk_rails_0425bff6ee FOREIGN KEY (persona_id) REFERENCES public.msip_persona(id);
 
 
 --
@@ -7203,7 +7203,7 @@ ALTER TABLE ONLY public.apo214_propietario
 --
 
 ALTER TABLE ONLY public.apo214_propietario
-    ADD CONSTRAINT fk_rails_0629f9fb2c FOREIGN KEY (id_lugarpreliminar) REFERENCES public.apo214_lugarpreliminar(id);
+    ADD CONSTRAINT fk_rails_0629f9fb2c FOREIGN KEY (lugarpreliminar_id) REFERENCES public.apo214_lugarpreliminar(id);
 
 
 --
@@ -7443,7 +7443,7 @@ ALTER TABLE ONLY public.msip_orgsocial
 --
 
 ALTER TABLE ONLY public.apo214_lugarpreliminar
-    ADD CONSTRAINT fk_rails_5dc41e5b2c FOREIGN KEY (id_persona) REFERENCES public.msip_persona(id);
+    ADD CONSTRAINT fk_rails_5dc41e5b2c FOREIGN KEY (persona_id) REFERENCES public.msip_persona(id);
 
 
 --
@@ -8736,6 +8736,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230301212546'),
 ('20230404025025'),
 ('20230405032350'),
+('20230405141216'),
 ('20230405141724');
 
 
