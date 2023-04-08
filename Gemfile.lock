@@ -35,17 +35,17 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/apo214.git
-  revision: a390486d6c904fe4bb5fe7ec9c940b3eb393e384
-  branch: conv2
+  revision: 8ce0d2400d1294083081e063d1cceea9926cb15b
+  branch: main
   specs:
-    apo214 (2.2.0.beta2)
+    apo214 (2.2.0.beta1)
       msip
       rails
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/heb412_gen.git
-  revision: 4face5f255e8cad917567cd2b1ae67f256958fe4
-  branch: conv2
+  revision: 2756cdf73e81649f5f41aec0bc03425583692ce2
+  branch: main
   specs:
     heb412_gen (2.2.0.beta2)
       mr519_gen
@@ -55,8 +55,8 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/mr519_gen.git
-  revision: 081cddb10db3dfbb404483e3d3a86db26ef25141
-  branch: conv2
+  revision: 3ebb0575f23781bb53f1942b2ef70f7ff4719365
+  branch: main
   specs:
     mr519_gen (2.2.0.beta2)
       msip
@@ -64,8 +64,8 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/msip.git
-  revision: 3f038fea927f1d9bdeaa3d87d2d657e04a79438a
-  branch: conv2
+  revision: fe87198e3c81056cda121f744f5f96694fda2e3f
+  branch: main
   specs:
     msip (2.2.0.beta2)
       cancancan (~> 3)
@@ -84,8 +84,8 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/sivel2_gen.git
-  revision: 5c4956fa0bf7f13d0db572e582d8513bab6a6f20
-  branch: conv2
+  revision: 5498c55037f03b1c7613e1b3678c12f4c92cdd21
+  branch: main
   specs:
     sivel2_gen (2.2.0.beta2)
       color
@@ -232,12 +232,12 @@ GEM
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
-    dry-schema (1.13.0)
+    dry-schema (1.13.1)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 1.0, >= 1.0.1)
       dry-core (~> 1.0, < 2)
       dry-initializer (~> 3.0)
-      dry-logic (>= 1.5, < 2)
+      dry-logic (>= 1.4, < 2)
       dry-types (>= 1.7, < 2)
       zeitwerk (~> 2.6)
     dry-types (1.7.1)
