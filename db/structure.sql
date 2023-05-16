@@ -725,10 +725,10 @@ ALTER SEQUENCE public.apo214_listaanexo_id_seq OWNED BY public.apo214_listaanexo
 
 
 --
--- Name: apo214_listadepositados; Type: TABLE; Schema: public; Owner: -
+-- Name: apo214_listadepositado; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.apo214_listadepositados (
+CREATE TABLE public.apo214_listadepositado (
     id bigint NOT NULL,
     lugarpreliminar_id integer NOT NULL,
     persona_id integer NOT NULL
@@ -736,10 +736,10 @@ CREATE TABLE public.apo214_listadepositados (
 
 
 --
--- Name: apo214_listadepositados_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: apo214_listadepositado_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.apo214_listadepositados_id_seq
+CREATE SEQUENCE public.apo214_listadepositado_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -748,10 +748,10 @@ CREATE SEQUENCE public.apo214_listadepositados_id_seq
 
 
 --
--- Name: apo214_listadepositados_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: apo214_listadepositado_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.apo214_listadepositados_id_seq OWNED BY public.apo214_listadepositados.id;
+ALTER SEQUENCE public.apo214_listadepositado_id_seq OWNED BY public.apo214_listadepositado.id;
 
 
 --
@@ -818,10 +818,10 @@ ALTER SEQUENCE public.apo214_listainfofoto_id_seq OWNED BY public.apo214_listain
 
 
 --
--- Name: apo214_listapersofuentes; Type: TABLE; Schema: public; Owner: -
+-- Name: apo214_listapersonafuente; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.apo214_listapersofuentes (
+CREATE TABLE public.apo214_listapersonafuente (
     id bigint NOT NULL,
     lugarpreliminar_id integer NOT NULL,
     persona_id integer NOT NULL,
@@ -831,10 +831,10 @@ CREATE TABLE public.apo214_listapersofuentes (
 
 
 --
--- Name: apo214_listapersofuentes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: apo214_listapersonafuente_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.apo214_listapersofuentes_id_seq
+CREATE SEQUENCE public.apo214_listapersonafuente_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -843,10 +843,10 @@ CREATE SEQUENCE public.apo214_listapersofuentes_id_seq
 
 
 --
--- Name: apo214_listapersofuentes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: apo214_listapersonafuente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.apo214_listapersofuentes_id_seq OWNED BY public.apo214_listapersofuentes.id;
+ALTER SEQUENCE public.apo214_listapersonafuente_id_seq OWNED BY public.apo214_listapersonafuente.id;
 
 
 --
@@ -4616,10 +4616,10 @@ ALTER TABLE ONLY public.apo214_listaanexo ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- Name: apo214_listadepositados id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: apo214_listadepositado id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listadepositados ALTER COLUMN id SET DEFAULT nextval('public.apo214_listadepositados_id_seq'::regclass);
+ALTER TABLE ONLY public.apo214_listadepositado ALTER COLUMN id SET DEFAULT nextval('public.apo214_listadepositado_id_seq'::regclass);
 
 
 --
@@ -4637,10 +4637,10 @@ ALTER TABLE ONLY public.apo214_listainfofoto ALTER COLUMN id SET DEFAULT nextval
 
 
 --
--- Name: apo214_listapersofuentes id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: apo214_listapersonafuente id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listapersofuentes ALTER COLUMN id SET DEFAULT nextval('public.apo214_listapersofuentes_id_seq'::regclass);
+ALTER TABLE ONLY public.apo214_listapersonafuente ALTER COLUMN id SET DEFAULT nextval('public.apo214_listapersonafuente_id_seq'::regclass);
 
 
 --
@@ -5102,11 +5102,11 @@ ALTER TABLE ONLY public.apo214_listaanexo
 
 
 --
--- Name: apo214_listadepositados apo214_listadepositados_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: apo214_listadepositado apo214_listadepositado_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listadepositados
-    ADD CONSTRAINT apo214_listadepositados_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.apo214_listadepositado
+    ADD CONSTRAINT apo214_listadepositado_pkey PRIMARY KEY (id);
 
 
 --
@@ -5126,11 +5126,11 @@ ALTER TABLE ONLY public.apo214_listainfofoto
 
 
 --
--- Name: apo214_listapersofuentes apo214_listapersofuentes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: apo214_listapersonafuente apo214_listapersonafuente_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listapersofuentes
-    ADD CONSTRAINT apo214_listapersofuentes_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.apo214_listapersonafuente
+    ADD CONSTRAINT apo214_listapersonafuente_pkey PRIMARY KEY (id);
 
 
 --
@@ -7188,10 +7188,10 @@ ALTER TABLE ONLY public.msip_municipio
 
 
 --
--- Name: apo214_listadepositados fk_rails_094cd32464; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: apo214_listadepositado fk_rails_094cd32464; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listadepositados
+ALTER TABLE ONLY public.apo214_listadepositado
     ADD CONSTRAINT fk_rails_094cd32464 FOREIGN KEY (lugarpreliminar_id) REFERENCES public.apo214_lugarpreliminar(id);
 
 
@@ -7268,10 +7268,10 @@ ALTER TABLE ONLY public.heb412_gen_campohc
 
 
 --
--- Name: apo214_listadepositados fk_rails_2449cb19a2; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: apo214_listadepositado fk_rails_2449cb19a2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listadepositados
+ALTER TABLE ONLY public.apo214_listadepositado
     ADD CONSTRAINT fk_rails_2449cb19a2 FOREIGN KEY (persona_id) REFERENCES public.msip_persona(id);
 
 
@@ -7356,10 +7356,10 @@ ALTER TABLE ONLY public.sivel2_gen_caso_solicitud
 
 
 --
--- Name: apo214_listapersofuentes fk_rails_44b1ed6894; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: apo214_listapersonafuente fk_rails_44b1ed6894; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listapersofuentes
+ALTER TABLE ONLY public.apo214_listapersonafuente
     ADD CONSTRAINT fk_rails_44b1ed6894 FOREIGN KEY (lugarpreliminar_id) REFERENCES public.apo214_lugarpreliminar(id);
 
 
@@ -7660,10 +7660,10 @@ ALTER TABLE ONLY public.msip_solicitud
 
 
 --
--- Name: apo214_listapersofuentes fk_rails_abe0965e8d; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: apo214_listapersonafuente fk_rails_abe0965e8d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.apo214_listapersofuentes
+ALTER TABLE ONLY public.apo214_listapersonafuente
     ADD CONSTRAINT fk_rails_abe0965e8d FOREIGN KEY (persona_id) REFERENCES public.msip_persona(id);
 
 
@@ -8722,6 +8722,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230405141724'),
 ('20230406021624'),
 ('20230418194845'),
-('20230504084246');
+('20230504084246'),
+('20230505024430'),
+('20230505031324');
 
 
