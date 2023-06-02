@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/apo214.git
-  revision: 6654a5bb4e5042d9bb3c9c19f3778058128d6ef5
+  revision: c5e7520706cd4fbf24b0211cad33e7f375b62fd3
   branch: main
   specs:
     apo214 (2.2.0.beta2)
@@ -44,7 +44,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/heb412_gen.git
-  revision: 059d39e61e225e812e9ae48437b82b813409b0c9
+  revision: 396b375b3bcf4f6e9a8be6bde82c10347f204a0b
   branch: main
   specs:
     heb412_gen (2.2.0.beta2)
@@ -55,7 +55,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/mr519_gen.git
-  revision: f4dc81d01a09c241baf4573a7590b52f9ec31a83
+  revision: fbc3fcbb42c5dd5ddc02279ca88abb54c8d777ae
   branch: main
   specs:
     mr519_gen (2.2.0.beta2)
@@ -64,7 +64,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/msip.git
-  revision: 4b337148f544220894d53fc2d27a4d681a50ca1b
+  revision: 8ae241188f78f57eac278730f4e573720240bcc9
   branch: main
   specs:
     msip (2.2.0.beta2)
@@ -84,7 +84,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/sivel2_gen.git
-  revision: 7cc6baa87182b3107d13e61212aa02d4cc1186f8
+  revision: 3f8d4b93c2451b4d8cbdc5ccaffbb4ed5aa7192e
   branch: main
   specs:
     sivel2_gen (2.2.0.beta2)
@@ -263,7 +263,7 @@ GEM
       rails (>= 6.0.0)
       stimulus-rails
       turbo-rails
-    i18n (1.13.0)
+    i18n (1.14.0)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
     irb (1.6.4)
