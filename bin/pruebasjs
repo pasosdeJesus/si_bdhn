@@ -1,0 +1,38 @@
+#!/bin/sh
+
+echo "=== Pruebas de regresión al sistema con Javascript"
+
+export PUERTODES=33001
+export IPDES=127.0.0.1
+export RAILS_ENV=test
+export CONFIG_HOSTS=127.0.0.1
+
+if (test ! -f .env) then {
+  echo "Falta .env"
+  exit 1;
+} fi;
+. ./.env
+
+echo "=== Deteniendo"
+bin/detiene
+
+echo "=== Precompilando"
+bin/rails assets:precompile
+
+echo "=== Iniciando servidor"
+CONFIG_HOSTS=127.0.0.1 R=f bin/corre &
+
+sleep 10;
+
+echo "***"
+w3m -dump http://${IPDES}:${PUERTODES}
+echo "***"
+
+cd test/puppeteer
+for i in *.mjs; do
+  echo "Ejecutando $i"
+  node $i
+done
+
+bin/detiene &
+
