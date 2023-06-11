@@ -19,7 +19,7 @@
 </tr>
 <tr><td>clickAt</td><td>link=Nuevo<datalist><option>link=Nuevo</option><option>css=a.btn.btn-primary</option><option>xpath=(//a[contains(text(),'Nuevo')])[2]</option><option>//a[contains(@href, '/anzorc/sivel2/admin/antecedentes/nueva')]</option><option>//div[2]/div/a</option></datalist></td><td>23,17</td>
 </tr>
-<tr><td>esperaAsercionTexto2s</td><td>css=h1<datalist><option>css=h1</option><option>//div[@id='div_contenido']/div/h1</option><option>//h1</option></datalist></td><td>Nuevo Antecedente</td>
+<tr><td>assertText</td><td>css=h1<datalist><option>css=h1</option><option>//div[@id='div_contenido']/div/h1</option><option>//h1</option></datalist></td><td>Nuevo Antecedente</td>
 </tr>
 <tr><td>clickAt</td><td>id=antecedente_nombre<datalist><option>id=antecedente_nombre</option><option>name=antecedente[nombre]</option><option>css=#antecedente_nombre</option><option>//input[@id='antecedente_nombre']</option><option>//form[@id='new_antecedente']/div[2]/input</option><option>//div[2]/input</option></datalist></td><td>54,23</td>
 </tr>
@@ -35,7 +35,7 @@
 </tr>
 <tr><td>clickAt</td><td>link=Eliminar<datalist><option>link=Eliminar</option><option>css=a.btn.btn-danger</option><option>//a[contains(text(),'Eliminar')]</option><option>xpath=(//a[contains(@href, '/anzorc/sivel2/admin/antecedentes/101')])[2]</option><option>//a[3]</option></datalist></td><td>15,21</td>
 </tr>
-<tr><td>assertText</td><td>css=h1<datalist><option>css=h1</option><option>//h1</option></datalist></td><td>Antecedentes</td>
+<tr><td>clickAt</td><td>css=button.btn-close<datalist><option>css=button.btn-close</option><option>xpath=(//button[@type='button'])[2]</option><option>//div[@id='div_contenido']/div[2]/button</option><option>//div[2]/button</option></datalist></td><td>21,20</td>
 </tr>
 <tr><td>assertText</td><td>css=div.alert.alert-success &gt; span<datalist><option>css=div.alert.alert-success &gt; span</option><option>//div[@id='div_contenido']/div/span</option><option>//div/span</option></datalist></td><td>Sivel2Gen::Antecedente eliminado.</td>
 </tr>
@@ -49,7 +49,7 @@
 </tr>
 <tr><td>clickAt</td><td>link=Tablas Básicas<datalist><option>link=Tablas Básicas</option><option>//a[contains(text(),'Tablas Básicas')]</option><option>//a[contains(@href, '/anzorc/sivel2/tablasbasicas')]</option><option>//li[2]/ul/li[4]/a</option></datalist></td><td>75,21</td>
 </tr>
-<tr><td>esperaAsercionTexto2s</td><td>link=Categorias<datalist><option>css=h1</option><option>//div[@id='div_contenido']/div/h1</option><option>//h1</option><option>link=Categorias</option></datalist></td><td>Categorias</td>
+<tr><td>assertText</td><td>link=Categorias<datalist><option>css=h1</option><option>//div[@id='div_contenido']/div/h1</option><option>//h1</option><option>link=Categorias</option></datalist></td><td>Categorias</td>
 </tr>
 <tr><td>clickAt</td><td>link=Categorias<datalist><option>css=h1</option><option>//div[@id='div_contenido']/div/h1</option><option>//h1</option><option>link=Categorias</option></datalist></td><td></td>
 </tr>
@@ -83,17 +83,15 @@
 </tr>
 <tr><td>clickAt</td><td>id=categoria_tipocat<datalist><option>id=categoria_tipocat</option><option>name=categoria[tipocat]</option><option>css=#categoria_tipocat</option><option>//input[@id='categoria_tipocat']</option><option>//form[@id='new_categoria']/div[6]/input</option><option>//div[6]/input</option></datalist></td><td>56,26</td>
 </tr>
-<tr><td>select</td><td>id=categoria_id_pconsolidado<datalist><option>id=categoria_id_pconsolidado</option><option>name=categoria[id_pconsolidado]</option><option>css=#categoria_id_pconsolidado</option><option>//select[@id='categoria_id_pconsolidado']</option><option>//form[@id='new_categoria']/div[7]/select</option><option>//div[7]/select</option></datalist></td><td>label=13 - TORTURA</td>
-</tr>
-<tr><td>clickAt</td><td>id=categoria_id_pconsolidado<datalist><option>id=categoria_id_pconsolidado</option><option>name=categoria[id_pconsolidado]</option><option>css=#categoria_id_pconsolidado</option><option>//select[@id='categoria_id_pconsolidado']</option><option>//form[@id='new_categoria']/div[7]/select</option><option>//div[7]/select</option></datalist></td><td>-280,-570</td>
+<tr><td>select</td><td>id=categoria_pconsolidado_id<datalist><option>id=categoria_pconsolidado_id</option><option>name=categoria[pconsolidado_id]</option><option>css=#categoria_pconsolidado_id</option><option>//select[@id='categoria_pconsolidado_id']</option><option>//form[@id='new_categoria']/div[7]/select</option><option>//div[7]/select</option></datalist></td><td>label=13 - TORTURA</td>
 </tr>
 <tr><td>clickAt</td><td>name=commit<datalist><option>name=commit</option><option>css=input[name="commit"]</option><option>//input[@name='commit']</option><option>//form[@id='new_categoria']/div[11]/input</option><option>//div[11]/input</option></datalist></td><td>32,5</td>
 </tr>
 <tr><td>chooseOkOnNextConfirmation</td><td><datalist><option></option></datalist></td><td></td>
 </tr>
-<tr><td>clickAt</td><td>link=Eliminar<datalist><option>link=Eliminar</option><option>css=a.btn.btn-danger</option><option>//a[contains(text(),'Eliminar')]</option><option>//div[@id='div_contenido']/div[4]/form/div/div[4]/a</option><option>xpath=(//a[contains(@href, '/sivel2/admin/categorias/435')])[2]</option><option>//div[4]/a</option></datalist></td><td>40,15</td>
+<tr><td>clickAt</td><td>css=button.btn-close<datalist><option>css=button.btn-close</option><option>xpath=(//button[@type='button'])[2]</option><option>//div[@id='div_contenido']/div[2]/button</option><option>//div[2]/button</option></datalist></td><td>21,20</td>
 </tr>
-<tr><td>assertText</td><td>css=h1<datalist><option>css=h1</option><option>//div[@id='div_contenido']/div[2]/h1</option><option>//h1</option></datalist></td><td>Categorias</td>
+<tr><td>clickAt</td><td>link=Eliminar<datalist><option>link=Eliminar</option><option>css=a.btn.btn-danger</option><option>//a[contains(text(),'Eliminar')]</option><option>//div[@id='div_contenido']/div[4]/form/div/div[4]/a</option><option>xpath=(//a[contains(@href, '/sivel2/admin/categorias/435')])[2]</option><option>//div[4]/a</option></datalist></td><td>40,15</td>
 </tr>
 <tr><td>assertText</td><td>css=div.alert.alert-success &gt; span<datalist><option>css=div.alert.alert-success &gt; span</option><option>//div[@id='div_contenido']/div/span</option><option>//div/span</option></datalist></td><td>Sivel2Gen::Categoria eliminada.</td>
 </tr>
@@ -109,7 +107,7 @@
 </tr>
 <tr><td>clickAt</td><td>link=Centros poblados<datalist><option>link=Centros poblados</option><option>//a[contains(text(),'Centros poblados')]</option><option>//a[contains(@href, 'admin/clases')]</option><option>//article/ul/li[4]/a</option></datalist></td><td>69,10</td>
 </tr>
-<tr><td>esperaAsercionTexto2s</td><td>link=Nuevo<datalist><option>link=Nuevo</option><option>css=a.btn.btn-primary</option><option>xpath=(//a[contains(text(),'Nuevo')])[2]</option><option>//a[contains(@href, '/anzorc/sivel2/admin/clases/nueva')]</option><option>//div[2]/div/a</option></datalist></td><td>Nuevo</td>
+<tr><td>assertText</td><td>link=Nuevo<datalist><option>link=Nuevo</option><option>css=a.btn.btn-primary</option><option>xpath=(//a[contains(text(),'Nuevo')])[2]</option><option>//a[contains(@href, '/anzorc/sivel2/admin/clases/nueva')]</option><option>//div[2]/div/a</option></datalist></td><td>Nuevo</td>
 </tr>
 <tr><td>clickAt</td><td>link=Nuevo<datalist><option>link=Nuevo</option><option>css=a.btn.btn-primary</option><option>xpath=(//a[contains(text(),'Nuevo')])[2]</option><option>//a[contains(@href, '/anzorc/sivel2/admin/clases/nueva')]</option><option>//div[2]/div/a</option></datalist></td><td>43,18</td>
 </tr>

@@ -609,8 +609,8 @@
     "@jridgewell/sourcemap-codec" "1.4.14"
 
 "@pasosdejesus/autocompleta_ajax@https://gitlab.com/pasosdeJesus/autocompleta_ajax.git":
-  version "0.9.9-a30"
-  resolved "https://gitlab.com/pasosdeJesus/autocompleta_ajax.git#16ccf327765973c03836d0913a2e1441fc6c3451"
+  version "0.9.9-a32"
+  resolved "https://gitlab.com/pasosdeJesus/autocompleta_ajax.git#c460a93c41ef66b862965b673615d95e5f059458"
 
 "@popperjs/core@^2.10.1":
   version "2.11.8"
@@ -730,9 +730,9 @@
   integrity sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==
 
 "@types/node@*":
-  version "20.2.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.6.tgz#f8f4cdcf9bc74fffcb44a9e1e3f3586d583dac24"
-  integrity sha512-GQBWUtGoefMEOx/vu+emHEHU5aw6JdDoEtZhoBrHFPZbA/YNRFfN996XbBASEWdvmLSLyv9FKYppYGyZjCaq/g==
+  version "20.3.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.3.0.tgz#719498898d5defab83c3560f45d8498f58d11938"
+  integrity sha512-cumHmIAf6On83X7yP+LrsEyUOf/YlociZelmpRYaGFydoaPdxdt80MAbu6vWerQT2COCp2nPvHdsbD7tHn/YlQ==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1053,9 +1053,9 @@ camelcase@^6.2.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001489:
-  version "1.0.30001498"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001498.tgz#84e4ee2d03e0e4f8a04a508853b75a980c703201"
-  integrity sha512-LFInN2zAwx3ANrGCDZ5AKKJroHqNKyjXitdV5zRIVIaQlXKj3GmxUKagoKsjqUfckpAObPCEWnk5EeMlyMWcgw==
+  version "1.0.30001499"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001499.tgz#0235c127d9795c82aaf0a7f43e24018549dac659"
+  integrity sha512-IhoQqRrW6WiecFcfZgoJS1YLEN1/HR1vHP5WNgjCARRW7KUNToHHTX3FrwCM+y4zkRa48D9rE90WFYc2IWhDWQ==
 
 chalk@^2.0.0:
   version "2.4.2"
@@ -1090,9 +1090,9 @@ ci-info@^3.2.0:
   integrity sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==
 
 cjs-module-lexer@^1.0.0:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz#9f84ba3244a512f3a54e5277e8eef4c489864e40"
-  integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.3.tgz#6c370ab19f8a3394e318fe682686ec0ac684d107"
+  integrity sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==
 
 class-list@~0.1.0:
   version "0.1.1"

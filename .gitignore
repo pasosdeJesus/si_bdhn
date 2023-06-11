@@ -54,3 +54,4 @@ public/bdhn/si
 app/views/msip/hogar/_local.html.erb
 cobertura-sistema/
 cobertura-unitarias/
+app/javascript/controllers/sip
