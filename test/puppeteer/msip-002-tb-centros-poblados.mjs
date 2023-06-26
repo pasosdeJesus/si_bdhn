@@ -1,9 +1,8 @@
 import puppeteer from "puppeteer-core"
 import {
-  autentica,
   changeSelectElement,
   changeElementValue,
-  prepara,
+  prepararYAutenticarDeAmbiente,
   querySelectorsAll,
   querySelectorAll,
   scrollIntoViewIfNeeded,
@@ -21,9 +20,7 @@ import {
 
   let timeout = 5000;
   let urlini, browser, page;
-  [urlini, browser, page] = await prepara(timeout, '/bdhn/si');
-
-  await autentica(page, timeout, 'sivel2', 'sivel2');
+  [urlini, browser, page] = await prepararYAutenticarDeAmbiente(timeout);
 
     {
         const targetPage = page;
@@ -198,12 +195,12 @@ import {
         const targetPage = page;
         await scrollIntoViewIfNeeded([
             [
-                'aria/Código dentro del país'
+                'aria/Código dentro del municipio'
             ]
         ], targetPage, timeout);
         const element = await waitForSelectors([
             [
-                'aria/Código dentro del país'
+                'aria/Código dentro del municipio'
             ]
         ], targetPage, { timeout, visible: true });
         await element.click({
@@ -217,12 +214,12 @@ import {
         const targetPage = page;
         await scrollIntoViewIfNeeded([
             [
-                'aria/Código dentro del país'
+                'aria/Código dentro del municipio'
             ]
         ], targetPage, timeout);
         const element = await waitForSelectors([
             [
-                'aria/Código dentro del país'
+                'aria/Código dentro del municipio'
             ]
         ], targetPage, { timeout, visible: true });
         const inputType = await element.evaluate(el => el.type);
