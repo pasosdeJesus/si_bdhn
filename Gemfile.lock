@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/kreeti/kt-paperclip.git
-  revision: 91923a6ee1bd692696b51ea839f2f2578cb485b4
+  revision: edd1d9d6c6a9e66f5a31bf2068fc6777bfeade0a
   specs:
     kt-paperclip (7.2.0)
       activemodel (>= 4.2.0)
@@ -44,7 +44,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/heb412_gen.git
-  revision: 48fb3b039b2ab45695f59a52d9e33f1710cfb3d0
+  revision: 713267e78b41e3dd3a0818ed65ccf4cfc151513b
   branch: main
   specs:
     heb412_gen (2.2.0.beta4)
@@ -55,7 +55,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/mr519_gen.git
-  revision: c8f2a83a1cd504a75ee999c1e4196422b1085c12
+  revision: a00f4bd4881701df896b546e19f3254379adca1c
   branch: main
   specs:
     mr519_gen (2.2.0.beta4)
@@ -64,7 +64,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/msip.git
-  revision: e2391fadd3fabfbb73041a3bedf23ba99fcb91a7
+  revision: 3066795ce678d30ada62a33b479edb1b61b917ed
   branch: main
   specs:
     msip (2.2.0.beta4)
@@ -84,7 +84,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/sivel2_gen.git
-  revision: 9f740e22bad8449863e1d85b9b9ec5553dccd236
+  revision: 063335da42cc080732426797e0a3b901d97eaa40
   branch: main
   specs:
     sivel2_gen (2.2.0.beta4)
@@ -220,7 +220,7 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    dry-configurable (1.0.1)
+    dry-configurable (1.1.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
     dry-core (1.0.0)
@@ -266,7 +266,7 @@ GEM
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
-    irb (1.7.3)
+    irb (1.7.4)
       reline (>= 0.3.6)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
@@ -290,9 +290,9 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.0218.1)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.2)
+    mini_portile2 (2.8.4)
     minitest (5.18.1)
-    msgpack (1.7.1)
+    msgpack (1.7.2)
     net-imap (0.3.6)
       date
       net-protocol
