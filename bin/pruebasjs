@@ -8,6 +8,11 @@ export IPDES=127.0.0.1
 export RAILS_ENV=test
 export CONFIG_HOSTS=127.0.0.1
 
+fstat | grep ":${PUERTODES}" 
+if (test "$?" = "0") then {
+  echo "Ya está corriendo un proceso en el puerto $PUERTODES, detengalo antes";
+  exit 1;
+} fi;
 if (test ! -f .env) then {
   echo "Falta .env"
   exit 1;
@@ -30,6 +35,8 @@ w3m -dump http://${IPDES}:${PUERTODES}/${RUTA_RELATIVA}
 echo "***"
 
 cd test/puppeteer
+yarn cache clean
+yarn upgrade
 yarn
 for i in *.mjs; do
   echo "Ejecutando $i"
