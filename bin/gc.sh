@@ -15,6 +15,8 @@ echo "Ruta de la aplicación: $rutaap"
 
 . ${rutaap}.env
 
+bin/detiene
+
 s=`grep -B 1 "^ *path" Gemfile 2> /dev/null`
 if (test "$?" = "0") then {
   echo "Gemfile incluye gema cableada al sistema de archivos ($s)"
