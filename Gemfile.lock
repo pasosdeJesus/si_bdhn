@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/apo214.git
-  revision: fc50b26c35f0964db23ac7b23aa99bca9f4cdcb5
+  revision: 27912baf59328eb283a6fe1e9ba1da6a1038f675
   branch: main
   specs:
     apo214 (2.2.0.beta4)
@@ -64,7 +64,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/msip.git
-  revision: 5acca0ef5c97b547155025ee23a0a7833ce0641b
+  revision: 090470149b6fc798f1c056e60c27af6de486543f
   branch: main
   specs:
     msip (2.2.0.beta4)
