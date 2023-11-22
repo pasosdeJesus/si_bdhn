@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/apo214.git
-  revision: 9b978aeaebce63138decf525e691327cb08dd4ab
+  revision: b6e52e071b396d263c1c4b69a5dd2b4a6483194b
   branch: renclase
   specs:
     apo214 (2.2.0.beta4)
@@ -523,4 +523,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   2.4.20
+   2.4.22
