@@ -18,6 +18,8 @@
             desplegable: true %>
           <%= opcion_menu "Buscar repetidos", sivel2_gen.buscarrepetidos_path,
             desplegable: true %>
+          <%= opcion_menu "Víctimas",
+            msip.personas_path, desplegable: true %>
           <%= opcion_menu "Importar relatos XRLAT", 
             sivel2_gen.casos_importarrelatos_path, desplegable: true %>
         <% end %>
@@ -130,7 +132,7 @@
       Rails.configuration.x.sivel2_consweb_pie.html_safe : '' %>
     <hr>
     <div align="right"> 
-      Sistema de información de <a href="https://gitlab.com/pasosdeJesus/si_bdhn">código abierto</a> desarrollado por <a href="https://www.pasosdeJesus.org" target="_blank">Pasos de Jesús</a>. 2023.
+      Sistema de información de <a href="https://gitlab.com/pasosdeJesus/si_bdhn">código abierto</a> desarrollado por <a href="https://www.pasosdeJesus.org" target="_blank">Pasos de Jesús</a>. 2024.
 
     </div>
   </span>
