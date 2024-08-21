@@ -270,6 +270,170 @@ CREATE FUNCTION public.msip_nombre_vereda() RETURNS character varying
 
 
 --
+-- Name: msip_ubicacionpre_actualiza_nombre(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_actualiza_nombre() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        temp TEXT[];
+        nompais TEXT;
+        nomdep TEXT;
+        nommun TEXT;
+        nomver TEXT;
+        nomcp TEXT;
+      BEGIN
+        RAISE NOTICE 'Al comienzo new.nombre=%', new.nombre;
+        nompais := COALESCE((SELECT nombre FROM public.msip_pais WHERE id=new.pais_id LIMIT 1), '');
+        RAISE NOTICE 'nompais=%', nompais;
+        nomdep := COALESCE((SELECT nombre FROM public.msip_departamento WHERE id=new.departamento_id LIMIT 1), '');
+        RAISE NOTICE 'nomdep=%', nomdep;
+        nommun := COALESCE((SELECT nombre FROM public.msip_municipio WHERE id=new.municipio_id LIMIT 1), '');
+        RAISE NOTICE 'nommun=%', nommun;
+        nomcp := COALESCE((SELECT nombre FROM public.msip_centropoblado WHERE id=new.centropoblado_id LIMIT 1), '');
+        RAISE NOTICE 'nomcp=%', nomcp;
+        nomver := COALESCE((SELECT nombre FROM public.msip_vereda WHERE id=new.vereda_id LIMIT 1), '');
+        RAISE NOTICE 'nomver=%', nomver;
+
+        temp = public.msip_ubicacionpre_nomenclatura(nompais,
+          nomdep, nommun, nomver, nomcp, new.lugar, new.sitio);
+        new.nombre := temp[1];
+        RAISE NOTICE 'new.nombre=%', new.nombre;
+        new.nombre_sin_pais := temp[2];
+        RAISE NOTICE 'new.nombre_sin_pais=%', new.nombre_sin_pais;
+        RETURN new;
+      END
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_antes_de_eliminar_centropoblado(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_centropoblado() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        ASSERT(TG_OP = 'DELETE');
+        RAISE NOTICE 'Eliminando centropoblado';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'OLD.id = %', OLD.id;
+        RAISE NOTICE 'OLD.nombre = %', OLD.nombre;
+
+        DELETE FROM public.msip_ubicacionpre WHERE 
+          municipio_id=OLD.municipio_id
+          AND centropoblado_id=OLD.id
+          AND vereda_id IS NULL
+          AND lugar IS NULL;
+        RETURN OLD;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_antes_de_eliminar_departamento(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_departamento() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        ASSERT(TG_OP = 'DELETE');
+        RAISE NOTICE 'Eliminando departamento';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'OLD.id = %', OLD.id;
+        RAISE NOTICE 'OLD.nombre = %', OLD.nombre;
+
+        DELETE FROM public.msip_ubicacionpre WHERE pais_id=OLD.pais_id 
+          AND departamento_id=OLD.id
+          AND municipio_id IS NULL
+          AND centropoblado_id IS NULL
+          AND vereda_id IS NULL
+          AND lugar IS NULL;
+        RETURN OLD;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_antes_de_eliminar_municipio(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_municipio() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        ASSERT(TG_OP = 'DELETE');
+        RAISE NOTICE 'Eliminando municipio';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'OLD.id = %', OLD.id;
+        RAISE NOTICE 'OLD.nombre = %', OLD.nombre;
+
+        DELETE FROM public.msip_ubicacionpre WHERE 
+          departamento_id=OLD.departamento_id
+          AND municipio_id=OLD.id
+          AND centropoblado_id IS NULL
+          AND vereda_id IS NULL
+          AND lugar IS NULL;
+        RETURN OLD;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_antes_de_eliminar_pais(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_pais() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        ASSERT(TG_OP = 'DELETE');
+        RAISE NOTICE 'Eliminando país';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'OLD.id = %', OLD.id;
+        RAISE NOTICE 'OLD.nombre = %', OLD.nombre;
+
+        -- Pero no elimina en cascada
+        DELETE FROM public.msip_ubicacionpre WHERE pais_id=OLD.id
+          AND departamento_id IS NULL 
+          AND municipio_id IS NULL
+          AND centropoblado_id IS NULL
+          AND vereda_id IS NULL
+          AND lugar IS NULL
+          AND sitio IS NULL;
+
+        RETURN OLD;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_antes_de_eliminar_vereda(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_vereda() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        ASSERT(TG_OP = 'DELETE');
+        RAISE NOTICE 'Eliminando vereda';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'OLD.id = %', OLD.id;
+        RAISE NOTICE 'OLD.nombre = %', OLD.nombre;
+
+        DELETE FROM public.msip_ubicacionpre WHERE 
+          municipio_id=OLD.municipio_id
+          AND vereda_id=OLD.id
+          AND centropoblado_id IS NULL
+          AND lugar IS NULL;
+        RETURN OLD;
+      END ;
+      $$;
+
+
+--
 -- Name: msip_ubicacionpre_dpa_nomenclatura(character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -277,29 +441,32 @@ CREATE FUNCTION public.msip_ubicacionpre_dpa_nomenclatura(pais character varying
     LANGUAGE sql
     AS $$
         SELECT CASE
-        WHEN pais IS NULL OR pais = '' THEN
-          array[NULL, NULL]
-        WHEN departamento IS NULL OR departamento = '' THEN
-          array[pais, NULL]
-        WHEN municipio IS NULL OR municipio = '' THEN
-          array[departamento || ' / ' || pais, departamento]
-        WHEN (vereda IS NULL OR vereda = '') AND
-        (centropoblado IS NULL OR centropoblado = '') THEN
+        WHEN pais IS NULL OR TRIM(pais) = '' THEN
+          array['', '']
+        WHEN departamento IS NULL OR TRIM(departamento) = '' THEN
+          array[TRIM(pais), '']
+        WHEN municipio IS NULL OR TRIM(municipio) = '' THEN
+          array[TRIM(departamento) || ' / ' || TRIM(pais), TRIM(departamento)]
+        WHEN (vereda IS NULL OR TRIM(vereda) = '') AND
+        (centropoblado IS NULL OR TRIM(centropoblado) = '') THEN
           array[
-            municipio || ' / ' || departamento || ' / ' || pais,
-            municipio || ' / ' || departamento ]
-        WHEN vereda IS NOT NULL THEN
+            TRIM(municipio) || ' / ' || TRIM(departamento) || ' / ' || 
+              TRIM(pais),
+            TRIM(municipio) || ' / ' || TRIM(departamento) ]
+        WHEN (vereda IS NOT NULL AND TRIM(vereda)<>'') THEN
           array[
-            msip_nombre_vereda() || vereda || ' / ' ||
-            municipio || ' / ' || departamento || ' / ' || pais,
-            msip_nombre_vereda() || vereda || ' / ' ||
-            municipio || ' / ' || departamento ]
+            public.msip_nombre_vereda() || TRIM(vereda) || ' / ' ||
+              TRIM(municipio) || ' / ' || TRIM(departamento) || ' / ' || 
+              TRIM(pais),
+            public.msip_nombre_vereda() || TRIM(vereda) || ' / ' ||
+              TRIM(municipio) || ' / ' || TRIM(departamento) ]
         ELSE
           array[
-            centropoblado || ' / ' ||
-            municipio || ' / ' || departamento || ' / ' || pais,
-            centropoblado || ' / ' ||
-            municipio || ' / ' || departamento ]
+            TRIM(centropoblado) || ' / ' ||
+              TRIM(municipio) || ' / ' || TRIM(departamento) || ' / ' || 
+              TRIM(pais),
+            TRIM(centropoblado) || ' / ' ||
+            TRIM(municipio) || ' / ' || TRIM(departamento) ]
          END
       $$;
 
@@ -322,27 +489,606 @@ CREATE FUNCTION public.msip_ubicacionpre_id_rtablabasica() RETURNS integer
 --
 
 CREATE FUNCTION public.msip_ubicacionpre_nomenclatura(pais character varying, departamento character varying, municipio character varying, vereda character varying, centropoblado character varying, lugar character varying, sitio character varying) RETURNS text[]
-    LANGUAGE sql
+    LANGUAGE plpgsql
     AS $$
-        SELECT CASE
-        WHEN (lugar IS NULL OR lugar = '') THEN
-          msip_ubicacionpre_dpa_nomenclatura(pais, departamento,
-          municipio, vereda, centropoblado)
-        WHEN (sitio IS NULL OR sitio= '') THEN
-          array[lugar || ' / ' || 
-            (msip_ubicacionpre_dpa_nomenclatura(pais, departamento,
-              municipio, vereda, centropoblado))[0],
-          lugar || ' / ' || 
-            (msip_ubicacionpre_dpa_nomenclatura(pais, departamento,
-              municipio, vereda, centropoblado))[1] ]
+      DECLARE
+        dpa TEXT[];
+      BEGIN
+        dpa := public.msip_ubicacionpre_dpa_nomenclatura(pais, departamento,
+            municipio, vereda, centropoblado);
+        --RAISE NOTICE 'dpa[1]=%', dpa[1];
+        --RAISE NOTICE 'dpa[2]=%', dpa[2];
+        IF (lugar IS NULL OR lugar = '') THEN
+          return dpa;
+        ELSEIF (sitio IS NULL OR sitio= '') THEN
+          return array[
+              lugar || ' / ' || dpa[1],
+              lugar || ' / ' || dpa[2]
+            ];
         ELSE
-          array[sitio || ' / ' || lugar || ' / ' || 
-            (msip_ubicacionpre_dpa_nomenclatura(pais, departamento,
-              municipio, vereda, centropoblado))[0],
-          sitio || ' / ' || lugar || ' / ' || 
-            (msip_ubicacionpre_dpa_nomenclatura(pais, departamento,
-              municipio, vereda, centropoblado))[1] ]
-        END
+          return array[
+              sitio || ' / ' || lugar || ' / ' || dpa[1],
+              sitio || ' / ' || lugar || ' / ' || dpa[2] 
+          ];
+        END IF;
+      END
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_actualizar_centropoblado(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_actualizar_centropoblado() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+        mi_pais_id INTEGER;
+        mi_departamento_id INTEGER;
+        nompais TEXT;
+        nomdepartamento TEXT;
+        nommunicipio TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'UPDATE');
+        RAISE NOTICE 'Actualizando centropoblado';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'NEW.id = %', NEW.id;
+        RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+        RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+        RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+        RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+        mi_departamento_id := (SELECT departamento_id 
+          FROM public.msip_municipio
+          WHERE id=NEW.municipio_id LIMIT 1);
+        mi_pais_id := (SELECT pais_id FROM public.msip_departamento
+          WHERE id=mi_departamento_id LIMIT 1);
+        nompais := (SELECT nombre FROM public.msip_pais 
+          WHERE id=mi_pais_id LIMIT 1);
+        nomdepartamento := (SELECT nombre FROM public.msip_departamento
+          WHERE id=mi_departamento_id LIMIT 1);
+        nommunicipio := (SELECT nombre FROM public.msip_municipio
+          WHERE id=NEW.municipio_id LIMIT 1);
+
+        dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+          nompais, nomdepartamento, nommunicipio, '', NEW.nombre
+        );
+
+        UPDATE public.msip_ubicacionpre SET
+          nombre=dpa[1],
+          nombre_sin_pais=dpa[2],
+          latitud=NEW.latitud,
+          longitud=NEW.longitud,
+          updated_at=NOW()
+        WHERE pais_id=mi_pais_id
+            AND departamento_id=mi_departamento_id
+            AND municipio_id=NEW.municipio_id
+            AND centropoblado_id=NEW.id
+            AND vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL;
+
+        -- Actualizamos lo que está dentro del centropoblado en cascada (esperamos
+        -- llamada al trigger de nomenclatura para arreglar nombre_sin_pais por
+        -- ejemplo)
+        UPDATE public.msip_ubicacionpre SET
+          nombre=REPLACE(nombre, OLD.nombre, NEW.nombre),
+          updated_at=NOW()
+        WHERE pais_id=mi_pais_id
+          AND departamento_id=mi_departamento_id
+          AND municipio_id=NEW.municipio_id
+          AND centropoblado_id=NEW.id
+          AND NOT (vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL);
+
+        RETURN NULL;
+      END ;
+    $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_actualizar_departamento(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_actualizar_departamento() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE 
+        dpa TEXT[];
+        nompais TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'UPDATE');
+        RAISE NOTICE 'Actualizando departamento';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'NEW.id = %', NEW.id;
+        RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+        RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+        RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+        RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+        nompais := COALESCE((SELECT nombre FROM public.msip_pais WHERE id=new.pais_id LIMIT 1), '');
+        dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+         nompais, NEW.nombre, '', '', ''
+        );
+        UPDATE public.msip_ubicacionpre SET
+          nombre=dpa[1],
+          nombre_sin_pais=dpa[2],
+          latitud=NEW.latitud,
+          longitud=NEW.longitud,
+          updated_at=NOW()
+        WHERE pais_id=OLD.pais_id
+            AND departamento_id=OLD.id
+            AND municipio_id IS NULL
+            AND centropoblado_id IS NULL
+            AND vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL;
+
+        -- Actualizamos lo que está dentro del departamento en cascada (esperamos 
+        -- llamada al trigger de nomenclatura para arreglar nombre_sin_pais por 
+        -- ejemplo)
+        UPDATE public.msip_ubicacionpre SET
+          nombre=REPLACE(nombre, OLD.nombre, NEW.nombre),
+          updated_at=NOW()
+        WHERE pais_id=OLD.pais_id 
+          AND departamento_id=OLD.id 
+          AND NOT (municipio_id IS NULL
+            AND centropoblado_id IS NULL
+            AND vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL);
+
+        RETURN NULL;
+      END ;
+    $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_actualizar_municipio(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_actualizar_municipio() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+        mi_pais_id INTEGER;
+        nompais TEXT;
+        nomdepartamento TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'UPDATE');
+        RAISE NOTICE 'Actualizando municipio';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'NEW.id = %', NEW.id;
+        RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+        RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+        RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+        RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+        mi_pais_id := (SELECT pais_id FROM public.msip_departamento
+          WHERE id=new.departamento_id LIMIT 1);
+        nompais := (SELECT nombre FROM public.msip_pais 
+          WHERE id=mi_pais_id LIMIT 1);
+        nomdepartamento := (SELECT nombre FROM public.msip_departamento
+          WHERE id=new.departamento_id LIMIT 1);
+        dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+          nompais, nomdepartamento, NEW.nombre, '', ''
+        );
+
+        UPDATE public.msip_ubicacionpre SET
+          nombre=dpa[1],
+          nombre_sin_pais=dpa[2],
+          latitud=NEW.latitud,
+          longitud=NEW.longitud,
+          updated_at=NOW()
+        WHERE pais_id=mi_pais_id
+            AND departamento_id=OLD.departamento_id
+            AND municipio_id=OLD.id
+            AND centropoblado_id IS NULL
+            AND vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL;
+
+        -- Actualizamos lo que está dentro del departamento en cascada (esperamos
+        -- llamada al trigger de nomenclatura para arreglar nombre_sin_pais por
+        -- ejemplo)
+        UPDATE public.msip_ubicacionpre SET
+          nombre=REPLACE(nombre, OLD.nombre, NEW.nombre),
+          updated_at=NOW()
+        WHERE pais_id=mi_pais_id
+          AND departamento_id=OLD.departamento_id
+          AND municipio_id=OLD.id
+          AND NOT (centropoblado_id IS NULL
+            AND vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL);
+
+        RETURN NULL;
+      END ;
+    $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_actualizar_pais(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_actualizar_pais() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE 
+        dpa TEXT[];
+      BEGIN
+        ASSERT(TG_OP = 'UPDATE');
+        RAISE NOTICE 'Actualizando pais';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'NEW.id = %', NEW.id;
+        RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+        RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+        RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+        RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+        -- Actualizamos pais
+        dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+          NEW.nombre, '', '', '', ''
+        );
+        UPDATE public.msip_ubicacionpre SET
+          nombre=dpa[1],
+          latitud=NEW.latitud,
+          longitud=NEW.longitud,
+          updated_at=NOW()
+        WHERE pais_id=OLD.id
+            AND departamento_id IS NULL 
+            AND municipio_id IS NULL
+            AND centropoblado_id IS NULL
+            AND vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL;
+        
+        -- Actualizamos lo que está dentro del país en cascada (esperamos 
+        -- llamada al trigger de nomenclatura para arreglar nombre_sin_pais por 
+        -- ejemplo)
+        UPDATE public.msip_ubicacionpre SET
+          nombre=REPLACE(nombre, OLD.nombre, NEW.nombre),
+          updated_at=NOW()
+        WHERE pais_id=OLD.id
+            AND NOT (departamento_id IS NULL 
+            AND municipio_id IS NULL
+            AND centropoblado_id IS NULL
+            AND vereda_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL);
+
+        RETURN NULL;
+      END ;
+    $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_actualizar_vereda(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_actualizar_vereda() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+        mi_pais_id INTEGER;
+        mi_departamento_id INTEGER;
+        nompais TEXT;
+        nomdepartamento TEXT;
+        nommunicipio TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'UPDATE');
+        RAISE NOTICE 'Actualizando vereda';
+        RAISE NOTICE 'TG_OP = %', TG_OP;
+        RAISE NOTICE 'NEW.id = %', NEW.id;
+        RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+        RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+        RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+        RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+        mi_departamento_id := (SELECT departamento_id 
+          FROM public.msip_municipio
+          WHERE id=NEW.municipio_id LIMIT 1);
+        mi_pais_id := (SELECT pais_id FROM public.msip_departamento
+          WHERE id=mi_departamento_id LIMIT 1);
+        nompais := (SELECT nombre FROM public.msip_pais 
+          WHERE id=mi_pais_id LIMIT 1);
+        nomdepartamento := (SELECT nombre FROM public.msip_departamento
+          WHERE id=mi_departamento_id LIMIT 1);
+        nommunicipio := (SELECT nombre FROM public.msip_municipio
+          WHERE id=NEW.municipio_id LIMIT 1);
+
+        dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+          nompais, nomdepartamento, nommunicipio, '', NEW.nombre
+        );
+
+        UPDATE public.msip_ubicacionpre SET
+          nombre=dpa[1],
+          nombre_sin_pais=dpa[2],
+          latitud=NEW.latitud,
+          longitud=NEW.longitud,
+          updated_at=NOW()
+        WHERE pais_id=mi_pais_id
+            AND departamento_id=mi_departamento_id
+            AND municipio_id=NEW.municipio_id
+            AND vereda_id=NEW.id
+            AND centropoblado_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL;
+
+        -- Actualizamos lo que está dentro de la vereda en cascada (esperamos
+        -- llamada al trigger de nomenclatura para arreglar nombre_sin_pais por
+        -- ejemplo)
+        UPDATE public.msip_ubicacionpre SET
+          nombre=REPLACE(nombre, OLD.nombre, NEW.nombre),
+          updated_at=NOW()
+        WHERE pais_id=mi_pais_id
+          AND departamento_id=mi_departamento_id
+          AND municipio_id=NEW.municipio_id
+          AND vereda_id=NEW.id
+          AND NOT (centropoblado_id IS NULL
+            AND lugar IS NULL
+            AND sitio IS NULL);
+
+        RETURN NULL;
+      END ;
+    $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_crear_centropoblado(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_crear_centropoblado() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+        mi_pais_id INTEGER;
+        mi_departamento_id INTEGER;
+        nompais TEXT;
+        nomdepartamento TEXT;
+        nommunicipio TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'INSERT');
+        -- Los comunes se insertan manualmente con ids. diseñadas
+        IF NEW.id > 1000000 THEN
+          RAISE NOTICE 'Insertando centro poblado propio';
+          RAISE NOTICE 'TG_OP = %', TG_OP;
+          RAISE NOTICE 'NEW.id = %', NEW.id;
+          RAISE NOTICE 'NEW.municipio_id = %', NEW.municipio_id;
+          RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+          RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+          RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+          RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+          mi_departamento_id := (SELECT departamento_id 
+            FROM public.msip_municipio
+            WHERE id=NEW.municipio_id LIMIT 1);
+          mi_pais_id := (SELECT pais_id FROM public.msip_departamento
+            WHERE id=mi_departamento_id LIMIT 1);
+          nompais := (SELECT nombre FROM public.msip_pais 
+            WHERE id=mi_pais_id LIMIT 1);
+          nomdepartamento := (SELECT nombre FROM public.msip_departamento
+            WHERE id=mi_departamento_id LIMIT 1);
+          nommunicipio := (SELECT nombre FROM public.msip_municipio
+            WHERE id=NEW.municipio_id LIMIT 1);
+          dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+            nompais, nomdepartamento, nommunicipio, NEW.nombre, ''
+          );
+          INSERT INTO public.msip_ubicacionpre (nombre, pais_id,
+            departamento_id, municipio_id, centropoblado_id, vereda_id,
+            lugar, sitio, tsitio_id, latitud, longitud,
+            nombre_sin_pais, observaciones,
+            fechacreacion, fechadeshabilitacion, created_at, updated_at)
+          VALUES (dpa[1], mi_pais_id, 
+            mi_departamento_id, NEW.municipio_id, NEW.id, NULL,
+            NULL, NULL, NULL, NEW.latitud, NEW.longitud,
+            dpa[2], NULL,
+            NEW.fechacreacion, NULL, NOW(), NOW());
+        END IF;
+        RETURN NULL;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_crear_departamento(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_crear_departamento() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+        nompais TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'INSERT');
+        -- Los comunes se insertan manualmente con ids. diseñadas
+        IF NEW.id > 10000 THEN
+          RAISE NOTICE 'Insertando departamento propio';
+          RAISE NOTICE 'TG_OP = %', TG_OP;
+          RAISE NOTICE 'NEW.id = %', NEW.id;
+          RAISE NOTICE 'NEW.pais_id = %', NEW.pais_id;
+          RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+          RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+          RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+          RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+          nompais := COALESCE((SELECT nombre FROM public.msip_pais WHERE id=new.pais_id LIMIT 1), '');
+          dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+           nompais, NEW.nombre, '', '', ''
+          );
+          INSERT INTO public.msip_ubicacionpre (nombre, pais_id,
+            departamento_id, municipio_id, centropoblado_id, vereda_id,
+            lugar, sitio, tsitio_id, latitud, longitud,
+            nombre_sin_pais, observaciones,
+            fechacreacion, fechadeshabilitacion, created_at, updated_at)
+          VALUES (dpa[1], NEW.pais_id, NEW.id,
+            NULL, NULL, NULL,
+            NULL, NULL, NULL, NEW.latitud, NEW.longitud,
+            dpa[2], NULL,
+            NEW.fechacreacion, NULL, NOW(), NOW());
+        END IF;
+        RETURN NULL;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_crear_municipio(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_crear_municipio() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+        mi_pais_id INTEGER;
+        nompais TEXT;
+        nomdepartamento TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'INSERT');
+        -- Los comunes se insertan manualmente con ids. diseñadas
+        IF NEW.id > 100000 THEN
+          RAISE NOTICE 'Insertando departamento propio';
+          RAISE NOTICE 'TG_OP = %', TG_OP;
+          RAISE NOTICE 'NEW.id = %', NEW.id;
+          RAISE NOTICE 'NEW.departamento_id = %', NEW.departamento_id;
+          RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+          RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+          RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+          RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+          mi_pais_id := (SELECT pais_id FROM public.msip_departamento
+            WHERE id=new.departamento_id LIMIT 1);
+          nompais := (SELECT nombre FROM public.msip_pais 
+            WHERE id=mi_pais_id LIMIT 1);
+          nomdepartamento := (SELECT nombre FROM public.msip_departamento
+            WHERE id=new.departamento_id LIMIT 1);
+          dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+            nompais, nomdepartamento, NEW.nombre, '', ''
+          );
+          INSERT INTO public.msip_ubicacionpre (nombre, pais_id,
+            departamento_id, municipio_id, centropoblado_id, vereda_id,
+            lugar, sitio, tsitio_id, latitud, longitud,
+            nombre_sin_pais, observaciones,
+            fechacreacion, fechadeshabilitacion, created_at, updated_at)
+          VALUES (dpa[1], mi_pais_id, 
+            NEW.departamento_id, NEW.id, NULL, NULL,
+            NULL, NULL, NULL, NEW.latitud, NEW.longitud,
+            dpa[2], NULL,
+            NEW.fechacreacion, NULL, NOW(), NOW());
+        END IF;
+        RETURN NULL;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_crear_pais(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_crear_pais() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+      BEGIN
+        ASSERT(TG_OP = 'INSERT');
+        -- Los comunes se insertan manualmente con ids. diseñadas
+        IF NEW.id > 1000 THEN
+          RAISE NOTICE 'Insertando pais propio';
+          RAISE NOTICE 'TG_OP = %', TG_OP;
+          RAISE NOTICE 'NEW.id = %', NEW.id;
+          RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+          RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+          RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+          RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+          dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+           NEW.nombre, '', '', '', ''
+          );
+          INSERT INTO public.msip_ubicacionpre (nombre, pais_id,
+            departamento_id, municipio_id, centropoblado_id, vereda_id,
+            lugar, sitio, tsitio_id, latitud, longitud,
+            nombre_sin_pais, observaciones,
+            fechacreacion, fechadeshabilitacion, created_at, updated_at)
+          VALUES (dpa[1], NEW.id,
+            NULL, NULL, NULL, NULL,
+            NULL, NULL, NULL, NEW.latitud, NEW.longitud,
+            NULL, NULL,
+            NEW.fechacreacion, NULL, NOW(), NOW());
+        END IF;
+        RETURN NULL;
+      END ;
+      $$;
+
+
+--
+-- Name: msip_ubicacionpre_tras_crear_vereda(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.msip_ubicacionpre_tras_crear_vereda() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        dpa TEXT[];
+        mi_pais_id INTEGER;
+        mi_departamento_id INTEGER;
+        nompais TEXT;
+        nomdepartamento TEXT;
+        nommunicipio TEXT;
+      BEGIN
+        ASSERT(TG_OP = 'INSERT');
+        -- Los comunes se insertan manualmente con ids. diseñadas
+        IF NEW.id > 1000000 THEN
+          RAISE NOTICE 'Insertando centro poblado propio';
+          RAISE NOTICE 'TG_OP = %', TG_OP;
+          RAISE NOTICE 'NEW.id = %', NEW.id;
+          RAISE NOTICE 'NEW.municipio_id = %', NEW.municipio_id;
+          RAISE NOTICE 'NEW.nombre = %', NEW.nombre;
+          RAISE NOTICE 'NEW.latitud = %', NEW.latitud;
+          RAISE NOTICE 'NEW.longitud = %', NEW.longitud;
+          RAISE NOTICE 'NEW.observaciones = %', NEW.observaciones;
+
+          mi_departamento_id := (SELECT departamento_id 
+            FROM public.msip_municipio
+            WHERE id=NEW.municipio_id LIMIT 1);
+          RAISE NOTICE 'mi_departamento_id = %', mi_departamento_id;
+          mi_pais_id := (SELECT pais_id FROM public.msip_departamento
+            WHERE id=mi_departamento_id LIMIT 1);
+          RAISE NOTICE 'mi_pais_id = %', mi_pais_id;
+          nompais := (SELECT nombre FROM public.msip_pais 
+            WHERE id=mi_pais_id LIMIT 1);
+          RAISE NOTICE 'nompais = %', nompais;
+          nomdepartamento := (SELECT nombre FROM public.msip_departamento
+            WHERE id=mi_departamento_id LIMIT 1);
+          RAISE NOTICE 'nomdepartamento = %', nomdepartamento;
+          nommunicipio := (SELECT nombre FROM public.msip_municipio
+            WHERE id=NEW.municipio_id LIMIT 1);
+          RAISE NOTICE 'nommunicipio = %', nommunicipio;
+          dpa := public.msip_ubicacionpre_dpa_nomenclatura(
+            nompais, nomdepartamento, nommunicipio, NEW.nombre, ''
+          );
+          RAISE NOTICE 'dpa[0] = %', dpa[0];
+          RAISE NOTICE 'dpa[1] = %', dpa[1];
+          INSERT INTO public.msip_ubicacionpre (nombre, pais_id,
+            departamento_id, municipio_id, centropoblado_id, vereda_id,
+            lugar, sitio, tsitio_id, latitud, longitud,
+            nombre_sin_pais, observaciones,
+            fechacreacion, fechadeshabilitacion, created_at, updated_at)
+          VALUES (dpa[1], mi_pais_id, 
+            mi_departamento_id, NEW.municipio_id, NULL, NEW.id,
+            NULL, NULL, NULL, NEW.latitud, NEW.longitud,
+            dpa[2], NULL,
+            NEW.fechacreacion, NULL, NOW(), NOW());
+        END IF;
+        RETURN NULL;
+      END ;
       $$;
 
 
@@ -1358,7 +2104,6 @@ CREATE TABLE public.sivel2_gen_victima (
     organizacionarmada integer DEFAULT 35 NOT NULL,
     anotaciones character varying(1000),
     persona_id integer NOT NULL,
-    etnia_id integer DEFAULT 1 NOT NULL,
     iglesia_id integer DEFAULT 1,
     orientacionsexual character(1) DEFAULT 'S'::bpchar NOT NULL,
     created_at timestamp without time zone,
@@ -1608,6 +2353,7 @@ CREATE TABLE public.msip_persona (
     departamento_id integer,
     municipio_id integer,
     centropoblado_id integer,
+    etnia_id integer DEFAULT 1 NOT NULL,
     CONSTRAINT persona_check CHECK (((dianac IS NULL) OR (((dianac >= 1) AND (((mesnac = 1) OR (mesnac = 3) OR (mesnac = 5) OR (mesnac = 7) OR (mesnac = 8) OR (mesnac = 10) OR (mesnac = 12)) AND (dianac <= 31))) OR (((mesnac = 4) OR (mesnac = 6) OR (mesnac = 9) OR (mesnac = 11)) AND (dianac <= 30)) OR ((mesnac = 2) AND (dianac <= 29))))),
     CONSTRAINT persona_mesnac_check CHECK (((mesnac IS NULL) OR ((mesnac >= 1) AND (mesnac <= 12)))),
     CONSTRAINT persona_sexo_check CHECK (((sexo = 'S'::bpchar) OR (sexo = 'F'::bpchar) OR (sexo = 'M'::bpchar)))
@@ -1751,7 +2497,7 @@ ALTER SEQUENCE public.heb412_gen_campohc_id_seq OWNED BY public.heb412_gen_campo
 CREATE TABLE public.heb412_gen_campoplantillahcm (
     id integer NOT NULL,
     plantillahcm_id integer,
-    nombrecampo character varying(183),
+    nombrecampo character varying(183) COLLATE public.es_co_utf_8,
     columna character varying(5)
 );
 
@@ -1783,7 +2529,7 @@ ALTER SEQUENCE public.heb412_gen_campoplantillahcm_id_seq OWNED BY public.heb412
 CREATE TABLE public.heb412_gen_campoplantillahcr (
     id bigint NOT NULL,
     plantillahcr_id integer,
-    nombrecampo character varying(127),
+    nombrecampo character varying(127) COLLATE public.es_co_utf_8,
     columna character varying(5),
     fila integer
 );
@@ -2299,9 +3045,9 @@ ALTER SEQUENCE public.mr519_gen_valorcampo_id_seq OWNED BY public.mr519_gen_valo
 CREATE TABLE public.msip_anexo (
     id integer NOT NULL,
     descripcion character varying(1500) NOT NULL COLLATE public.es_co_utf_8,
-    adjunto_file_name character varying(255),
-    adjunto_content_type character varying(255),
-    adjunto_file_size integer,
+    adjunto_file_name character varying(255) NOT NULL,
+    adjunto_content_type character varying(255) NOT NULL,
+    adjunto_file_size integer NOT NULL,
     adjunto_updated_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -2547,6 +3293,42 @@ ALTER SEQUENCE public.msip_etiqueta_persona_id_seq OWNED BY public.msip_etiqueta
 
 
 --
+-- Name: msip_etnia; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.msip_etnia (
+    id bigint NOT NULL,
+    nombre character varying(500) NOT NULL COLLATE public.es_co_utf_8,
+    descripcion character varying(1000),
+    observaciones character varying(5000),
+    fechacreacion date NOT NULL,
+    fechadeshabilitacion date,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT etnia_check CHECK (((fechadeshabilitacion IS NULL) OR (fechadeshabilitacion >= fechacreacion)))
+);
+
+
+--
+-- Name: msip_etnia_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.msip_etnia_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: msip_etnia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.msip_etnia_id_seq OWNED BY public.msip_etnia.id;
+
+
+--
 -- Name: msip_fuenteprensa_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2667,11 +3449,11 @@ UNION
 --
 
 CREATE MATERIALIZED VIEW public.msip_mundep AS
- SELECT msip_mundep_sinorden.idlocal,
-    msip_mundep_sinorden.nombre,
-    to_tsvector('spanish'::regconfig, public.unaccent(msip_mundep_sinorden.nombre)) AS mundep
+ SELECT idlocal,
+    nombre,
+    to_tsvector('spanish'::regconfig, public.unaccent(nombre)) AS mundep
    FROM public.msip_mundep_sinorden
-  ORDER BY (msip_mundep_sinorden.nombre COLLATE public.es_co_utf_8)
+  ORDER BY (nombre COLLATE public.es_co_utf_8)
   WITH NO DATA;
 
 
@@ -3367,13 +4149,13 @@ ALTER SEQUENCE public.msip_vereda_id_seq OWNED BY public.msip_vereda.id;
 --
 
 CREATE MATERIALIZED VIEW public.napellidos AS
- SELECT s.apellido,
+ SELECT apellido,
     count(*) AS frec
    FROM ( SELECT public.divarr(string_to_array(btrim((msip_persona.apellidos)::text), ' '::text)) AS apellido
            FROM public.msip_persona,
             public.sivel2_gen_victima
           WHERE (sivel2_gen_victima.persona_id = msip_persona.id)) s
-  GROUP BY s.apellido
+  GROUP BY apellido
   ORDER BY (count(*))
   WITH NO DATA;
 
@@ -3383,13 +4165,13 @@ CREATE MATERIALIZED VIEW public.napellidos AS
 --
 
 CREATE MATERIALIZED VIEW public.nhombres AS
- SELECT s.nombre,
+ SELECT nombre,
     count(*) AS frec
    FROM ( SELECT public.divarr(string_to_array(btrim((msip_persona.nombres)::text), ' '::text)) AS nombre
            FROM public.msip_persona,
             public.sivel2_gen_victima
           WHERE ((sivel2_gen_victima.persona_id = msip_persona.id) AND (msip_persona.sexo = 'M'::bpchar))) s
-  GROUP BY s.nombre
+  GROUP BY nombre
   ORDER BY (count(*))
   WITH NO DATA;
 
@@ -3399,13 +4181,13 @@ CREATE MATERIALIZED VIEW public.nhombres AS
 --
 
 CREATE MATERIALIZED VIEW public.nmujeres AS
- SELECT s.nombre,
+ SELECT nombre,
     count(*) AS frec
    FROM ( SELECT public.divarr(string_to_array(btrim((msip_persona.nombres)::text), ' '::text)) AS nombre
            FROM public.msip_persona,
             public.sivel2_gen_victima
           WHERE ((sivel2_gen_victima.persona_id = msip_persona.id) AND (msip_persona.sexo = 'F'::bpchar))) s
-  GROUP BY s.nombre
+  GROUP BY nombre
   ORDER BY (count(*))
   WITH NO DATA;
 
@@ -3415,8 +4197,8 @@ CREATE MATERIALIZED VIEW public.nmujeres AS
 --
 
 CREATE MATERIALIZED VIEW public.persona_nomap AS
- SELECT msip_persona.id,
-    upper(btrim(((btrim((msip_persona.nombres)::text) || ' '::text) || btrim((msip_persona.apellidos)::text)))) AS nomap
+ SELECT id,
+    upper(btrim(((btrim((nombres)::text) || ' '::text) || btrim((apellidos)::text)))) AS nomap
    FROM public.msip_persona
   WITH NO DATA;
 
@@ -4024,29 +4806,12 @@ CREATE SEQUENCE public.sivel2_gen_etnia_id_seq
 
 
 --
--- Name: sivel2_gen_etnia; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.sivel2_gen_etnia (
-    id integer DEFAULT nextval('public.sivel2_gen_etnia_id_seq'::regclass) NOT NULL,
-    nombre character varying(500) NOT NULL COLLATE public.es_co_utf_8,
-    descripcion character varying(1000),
-    fechacreacion date NOT NULL,
-    fechadeshabilitacion date,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    observaciones character varying(5000),
-    CONSTRAINT etnia_check CHECK (((fechadeshabilitacion IS NULL) OR (fechadeshabilitacion >= fechacreacion)))
-);
-
-
---
 -- Name: sivel2_gen_etnia_victimacolectiva; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.sivel2_gen_etnia_victimacolectiva (
-    etnia_id integer NOT NULL,
-    victimacolectiva_id integer NOT NULL
+    victimacolectiva_id integer NOT NULL,
+    etnia_id integer DEFAULT 1 NOT NULL
 );
 
 
@@ -4386,6 +5151,36 @@ CREATE TABLE public.sivel2_gen_profesion (
     observaciones character varying(5000),
     CONSTRAINT profesion_check CHECK (((fechadeshabilitacion IS NULL) OR (fechadeshabilitacion >= fechacreacion)))
 );
+
+
+--
+-- Name: sivel2_gen_profesion_victima; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sivel2_gen_profesion_victima (
+    id bigint NOT NULL,
+    victima_id bigint NOT NULL,
+    profesion_id bigint NOT NULL
+);
+
+
+--
+-- Name: sivel2_gen_profesion_victima_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.sivel2_gen_profesion_victima_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sivel2_gen_profesion_victima_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.sivel2_gen_profesion_victima_id_seq OWNED BY public.sivel2_gen_profesion_victima.id;
 
 
 --
@@ -4976,6 +5771,13 @@ ALTER TABLE ONLY public.msip_etiqueta_persona ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- Name: msip_etnia id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.msip_etnia ALTER COLUMN id SET DEFAULT nextval('public.msip_etnia_id_seq'::regclass);
+
+
+--
 -- Name: msip_grupo id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5134,6 +5936,13 @@ ALTER TABLE ONLY public.sivel2_gen_estadocivil ALTER COLUMN id SET DEFAULT nextv
 --
 
 ALTER TABLE ONLY public.sivel2_gen_maternidad ALTER COLUMN id SET DEFAULT nextval('public.sivel2_gen_maternidad_id_seq'::regclass);
+
+
+--
+-- Name: sivel2_gen_profesion_victima id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sivel2_gen_profesion_victima ALTER COLUMN id SET DEFAULT nextval('public.sivel2_gen_profesion_victima_id_seq'::regclass);
 
 
 --
@@ -5613,6 +6422,14 @@ ALTER TABLE ONLY public.msip_etiqueta_persona
 
 ALTER TABLE ONLY public.msip_etiqueta
     ADD CONSTRAINT msip_etiqueta_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: msip_etnia msip_etnia_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.msip_etnia
+    ADD CONSTRAINT msip_etnia_pkey PRIMARY KEY (id);
 
 
 --
@@ -6128,14 +6945,6 @@ ALTER TABLE ONLY public.sivel2_gen_estadocivil
 
 
 --
--- Name: sivel2_gen_etnia sivel2_gen_etnia_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sivel2_gen_etnia
-    ADD CONSTRAINT sivel2_gen_etnia_pkey PRIMARY KEY (id);
-
-
---
 -- Name: sivel2_gen_etnia_victimacolectiva sivel2_gen_etnia_victimacolectiva_pkey1; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6229,6 +7038,14 @@ ALTER TABLE ONLY public.sivel2_gen_presponsable
 
 ALTER TABLE ONLY public.sivel2_gen_profesion
     ADD CONSTRAINT sivel2_gen_profesion_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sivel2_gen_profesion_victima sivel2_gen_profesion_victima_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sivel2_gen_profesion_victima
+    ADD CONSTRAINT sivel2_gen_profesion_victima_pkey PRIMARY KEY (id);
 
 
 --
@@ -6434,6 +7251,13 @@ CREATE INDEX index_msip_orgsocial_on_pais_id ON public.msip_orgsocial USING btre
 
 
 --
+-- Name: index_msip_persona_on_etnia_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_msip_persona_on_etnia_id ON public.msip_persona USING btree (etnia_id);
+
+
+--
 -- Name: index_msip_solicitud_usuarionotificar_on_solicitud_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6508,6 +7332,20 @@ CREATE INDEX index_sivel2_gen_otraorga_victima_on_organizacion_id ON public.sive
 --
 
 CREATE INDEX index_sivel2_gen_otraorga_victima_on_victima_id ON public.sivel2_gen_otraorga_victima USING btree (victima_id);
+
+
+--
+-- Name: index_sivel2_gen_profesion_victima_on_profesion_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sivel2_gen_profesion_victima_on_profesion_id ON public.sivel2_gen_profesion_victima USING btree (profesion_id);
+
+
+--
+-- Name: index_sivel2_gen_profesion_victima_on_victima_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sivel2_gen_profesion_victima_on_victima_id ON public.sivel2_gen_profesion_victima USING btree (victima_id);
 
 
 --
@@ -6784,13 +7622,6 @@ CREATE INDEX sivel2_gen_victima_id_caso ON public.sivel2_gen_victima USING btree
 
 
 --
--- Name: sivel2_gen_victima_id_etnia; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX sivel2_gen_victima_id_etnia ON public.sivel2_gen_victima USING btree (etnia_id);
-
-
---
 -- Name: sivel2_gen_victima_id_filiacion; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6868,6 +7699,41 @@ CREATE UNIQUE INDEX usuario_nusuario ON public.usuario USING btree (nusuario);
 
 
 --
+-- Name: msip_centropoblado msip_antes_de_eliminar_centropoblado; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_antes_de_eliminar_centropoblado BEFORE DELETE ON public.msip_centropoblado FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_centropoblado();
+
+
+--
+-- Name: msip_departamento msip_antes_de_eliminar_departamento; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_antes_de_eliminar_departamento BEFORE DELETE ON public.msip_departamento FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_departamento();
+
+
+--
+-- Name: msip_municipio msip_antes_de_eliminar_municipio; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_antes_de_eliminar_municipio BEFORE DELETE ON public.msip_municipio FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_municipio();
+
+
+--
+-- Name: msip_pais msip_antes_de_eliminar_pais; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_antes_de_eliminar_pais BEFORE DELETE ON public.msip_pais FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_pais();
+
+
+--
+-- Name: msip_vereda msip_antes_de_eliminar_vereda; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_antes_de_eliminar_vereda BEFORE DELETE ON public.msip_vereda FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_antes_de_eliminar_vereda();
+
+
+--
 -- Name: msip_persona_trelacion msip_eliminar_familiar; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -6879,6 +7745,83 @@ CREATE TRIGGER msip_eliminar_familiar AFTER DELETE ON public.msip_persona_trelac
 --
 
 CREATE TRIGGER msip_insertar_familiar AFTER INSERT OR UPDATE ON public.msip_persona_trelacion FOR EACH ROW EXECUTE FUNCTION public.msip_agregar_o_remplazar_familiar_inverso();
+
+
+--
+-- Name: msip_centropoblado msip_tras_actualizar_centropoblado; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_actualizar_centropoblado AFTER UPDATE OF nombre, latitud, longitud ON public.msip_centropoblado FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_actualizar_centropoblado();
+
+
+--
+-- Name: msip_departamento msip_tras_actualizar_departamento; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_actualizar_departamento AFTER UPDATE OF nombre, latitud, longitud ON public.msip_departamento FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_actualizar_departamento();
+
+
+--
+-- Name: msip_municipio msip_tras_actualizar_municipio; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_actualizar_municipio AFTER UPDATE OF nombre, latitud, longitud ON public.msip_municipio FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_actualizar_municipio();
+
+
+--
+-- Name: msip_pais msip_tras_actualizar_pais; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_actualizar_pais AFTER UPDATE OF nombre, latitud, longitud ON public.msip_pais FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_actualizar_pais();
+
+
+--
+-- Name: msip_vereda msip_tras_actualizar_vereda; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_actualizar_vereda AFTER UPDATE OF nombre, latitud, longitud ON public.msip_vereda FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_actualizar_vereda();
+
+
+--
+-- Name: msip_centropoblado msip_tras_crear_centropoblado; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_crear_centropoblado AFTER INSERT ON public.msip_centropoblado FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_crear_centropoblado();
+
+
+--
+-- Name: msip_departamento msip_tras_crear_departamento; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_crear_departamento AFTER INSERT ON public.msip_departamento FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_crear_departamento();
+
+
+--
+-- Name: msip_municipio msip_tras_crear_municipio; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_crear_municipio AFTER INSERT ON public.msip_municipio FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_crear_municipio();
+
+
+--
+-- Name: msip_pais msip_tras_crear_pais; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_crear_pais AFTER INSERT ON public.msip_pais FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_crear_pais();
+
+
+--
+-- Name: msip_vereda msip_tras_crear_vereda; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER msip_tras_crear_vereda AFTER INSERT ON public.msip_vereda FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_tras_crear_vereda();
+
+
+--
+-- Name: msip_ubicacionpre tras_crear_o_actualizar_ubicacionpre; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER tras_crear_o_actualizar_ubicacionpre BEFORE INSERT OR UPDATE OF pais_id, departamento_id, municipio_id, centropoblado_id, vereda_id, lugar, sitio, nombre ON public.msip_ubicacionpre FOR EACH ROW EXECUTE FUNCTION public.msip_ubicacionpre_actualiza_nombre();
 
 
 --
@@ -7354,14 +8297,6 @@ ALTER TABLE ONLY public.sivel2_gen_caso_etiqueta
 
 
 --
--- Name: sivel2_gen_etnia_victimacolectiva etnia_victimacolectiva_etnia_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sivel2_gen_etnia_victimacolectiva
-    ADD CONSTRAINT etnia_victimacolectiva_etnia_id_fkey1 FOREIGN KEY (etnia_id) REFERENCES public.sivel2_gen_etnia(id);
-
-
---
 -- Name: sivel2_gen_etnia_victimacolectiva etnia_victimacolectiva_victimacolectiva_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7474,6 +8409,14 @@ ALTER TABLE ONLY public.apo214_listaanexo
 
 
 --
+-- Name: sivel2_gen_profesion_victima fk_rails_16a578e865; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sivel2_gen_profesion_victima
+    ADD CONSTRAINT fk_rails_16a578e865 FOREIGN KEY (profesion_id) REFERENCES public.sivel2_gen_profesion(id);
+
+
+--
 -- Name: msip_etiqueta_persona fk_rails_1856abc5d3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7487,6 +8430,14 @@ ALTER TABLE ONLY public.msip_etiqueta_persona
 
 ALTER TABLE ONLY public.mr519_gen_encuestausuario
     ADD CONSTRAINT fk_rails_1b24d10e82 FOREIGN KEY (usuario_id) REFERENCES public.usuario(id);
+
+
+--
+-- Name: sivel2_gen_profesion_victima fk_rails_1b333ee743; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sivel2_gen_profesion_victima
+    ADD CONSTRAINT fk_rails_1b333ee743 FOREIGN KEY (victima_id) REFERENCES public.sivel2_gen_victima(id);
 
 
 --
@@ -7615,6 +8566,14 @@ ALTER TABLE ONLY public.msip_orgsocial_persona
 
 ALTER TABLE ONLY public.msip_ubicacion
     ADD CONSTRAINT fk_rails_4dd7a7f238 FOREIGN KEY (departamento_id) REFERENCES public.msip_departamento(id);
+
+
+--
+-- Name: sivel2_gen_etnia_victimacolectiva fk_rails_4fafec807e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sivel2_gen_etnia_victimacolectiva
+    ADD CONSTRAINT fk_rails_4fafec807e FOREIGN KEY (etnia_id) REFERENCES public.msip_etnia(id);
 
 
 --
@@ -7783,6 +8742,14 @@ ALTER TABLE ONLY public.mr519_gen_valorcampo
 
 ALTER TABLE ONLY public.apo214_listasuelo
     ADD CONSTRAINT fk_rails_824ea49a05 FOREIGN KEY (lugarpreliminar_id) REFERENCES public.apo214_lugarpreliminar(id);
+
+
+--
+-- Name: sivel2_gen_anexo_caso fk_rails_825547f886; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sivel2_gen_anexo_caso
+    ADD CONSTRAINT fk_rails_825547f886 FOREIGN KEY (anexo_id) REFERENCES public.msip_anexo(id);
 
 
 --
@@ -7999,6 +8966,14 @@ ALTER TABLE ONLY public.apo214_lugarpreliminar
 
 ALTER TABLE ONLY public.apo214_lugarpreliminar
     ADD CONSTRAINT fk_rails_d2074c8fa3 FOREIGN KEY (otrolubicacionpre_id) REFERENCES public.msip_ubicacionpre(id);
+
+
+--
+-- Name: msip_persona fk_rails_d5b92f1c45; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.msip_persona
+    ADD CONSTRAINT fk_rails_d5b92f1c45 FOREIGN KEY (etnia_id) REFERENCES public.msip_etnia(id);
 
 
 --
@@ -8522,14 +9497,6 @@ ALTER TABLE ONLY public.sivel2_gen_victima
 
 
 --
--- Name: sivel2_gen_victima victima_id_etnia_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sivel2_gen_victima
-    ADD CONSTRAINT victima_id_etnia_fkey FOREIGN KEY (etnia_id) REFERENCES public.sivel2_gen_etnia(id);
-
-
---
 -- Name: sivel2_gen_victima victima_id_filiacion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8624,405 +9591,425 @@ ALTER TABLE ONLY public.sivel2_gen_victimacolectiva_vinculoestado
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('20131128151014'),
-('20131204135932'),
-('20131204140000'),
-('20131204143718'),
-('20131204183530'),
-('20131206081531'),
-('20131210221541'),
-('20131220103409'),
-('20131223175141'),
-('20140117212555'),
-('20140129151136'),
-('20140207102709'),
-('20140207102739'),
-('20140211162355'),
-('20140211164659'),
-('20140211172443'),
-('20140313012209'),
-('20140514142421'),
-('20140518120059'),
-('20140527110223'),
-('20140528043115'),
-('20140804202100'),
-('20140804202101'),
-('20140804202958'),
-('20140815111351'),
-('20140827142659'),
-('20140901105741'),
-('20140901106000'),
-('20140909165233'),
-('20140918115412'),
-('20140922102737'),
-('20140922110956'),
-('20141002140242'),
-('20141111102451'),
-('20141111203313'),
-('20150313153722'),
-('20150317084737'),
-('20150413000000'),
-('20150413160156'),
-('20150413160157'),
-('20150413160158'),
-('20150413160159'),
-('20150416074423'),
-('20150416090140'),
-('20150503120915'),
-('20150505084914'),
-('20150510125926'),
-('20150521181918'),
-('20150528100944'),
-('20150602094513'),
-('20150602095241'),
-('20150602104342'),
-('20150609094809'),
-('20150609094820'),
-('20150616095023'),
-('20150616100351'),
-('20150616100551'),
-('20150707164448'),
-('20150710114451'),
-('20150716171420'),
-('20150716192356'),
-('20150717101243'),
-('20150724003736'),
-('20150803082520'),
-('20150809032138'),
-('20150826000000'),
-('20151020203421'),
-('20151124110943'),
-('20151127102425'),
-('20151130101417'),
-('20160316093659'),
-('20160316094627'),
-('20160316100620'),
-('20160316100621'),
-('20160316100622'),
-('20160316100623'),
-('20160316100624'),
-('20160316100625'),
-('20160316100626'),
-('20160519195544'),
-('20160719195853'),
-('20160719214520'),
-('20160724160049'),
-('20160724164110'),
-('20160725123242'),
-('20160725131347'),
-('20161009111443'),
-('20161010152631'),
-('20161026110802'),
-('20161027233011'),
-('20161103080156'),
-('20161103081041'),
-('20161103083352'),
-('20161108102349'),
-('20170405104322'),
-('20170406213334'),
-('20170413185012'),
-('20170414035328'),
-('20170503145808'),
-('20170526084502'),
-('20170526100040'),
-('20170526124219'),
-('20170526131129'),
-('20170529020218'),
-('20170529154413'),
-('20170609131212'),
-('20170928100402'),
-('20171019133203'),
-('20180126035129'),
-('20180126055129'),
-('20180225152848'),
-('20180320230847'),
-('20180427194732'),
-('20180509111948'),
-('20180717134314'),
-('20180717135811'),
-('20180718094829'),
-('20180719015902'),
-('20180720140443'),
-('20180720171842'),
-('20180724135332'),
-('20180724202353'),
-('20180726213123'),
-('20180726234755'),
-('20180801105304'),
-('20180810221619'),
-('20180905031342'),
-('20180905031617'),
-('20180910132139'),
-('20180912114413'),
-('20180914153010'),
-('20180917072914'),
-('20180920031351'),
-('20180921120954'),
-('20181011104537'),
-('20181012110629'),
-('20181017094456'),
-('20181018003945'),
-('20181130112320'),
-('20181213103204'),
-('20181218165548'),
-('20181218165559'),
-('20181218215222'),
-('20181219085236'),
-('20181227093834'),
-('20181227094559'),
-('20181227095037'),
-('20181227100523'),
-('20181227114431'),
-('20181227210510'),
-('20190109125417'),
-('20190110191802'),
-('20190128032125'),
-('20190208103518'),
-('20190308195346'),
-('20190322102311'),
-('20190326150948'),
-('20190331111015'),
-('20190401175521'),
-('20190406141156'),
-('20190406164301'),
-('20190418011743'),
-('20190418014012'),
-('20190418123920'),
-('20190426125052'),
-('20190430112229'),
-('20190605143420'),
-('20190612111043'),
-('20190618135559'),
-('20190625112649'),
-('20190625140232'),
-('20190703044126'),
-('20190715083916'),
-('20190715182611'),
-('20190726203302'),
-('20190804223012'),
-('20190818013251'),
-('20190830172824'),
-('20190924013712'),
-('20190924112646'),
-('20190926104116'),
-('20190926104551'),
-('20190926133640'),
-('20190926143845'),
-('20191012042159'),
-('20191016100031'),
-('20191021021621'),
-('20191205200007'),
-('20191205202150'),
-('20191205204511'),
-('20191219011910'),
-('20191231102721'),
-('20200106174710'),
-('20200221181049'),
-('20200224134339'),
-('20200228235200'),
-('20200319183515'),
-('20200320152017'),
-('20200324164130'),
-('20200422103916'),
-('20200423092828'),
-('20200427091939'),
-('20200428155536'),
-('20200430101709'),
-('20200622193241'),
-('20200720005020'),
-('20200720013144'),
-('20200722210144'),
-('20200723133542'),
-('20200727021707'),
-('20200907165157'),
-('20200907174303'),
-('20200916022934'),
-('20200919003430'),
-('20200921123831'),
-('20201009004421'),
-('20201021214107'),
-('20201029153649'),
-('20201029162732'),
-('20201029220052'),
-('20201102232506'),
-('20201103175114'),
-('20201105154106'),
-('20201106155800'),
-('20201108201914'),
-('20201108203930'),
-('20201110170225'),
-('20201110170728'),
-('20201119125643'),
-('20201124035715'),
-('20201124050637'),
-('20201124142002'),
-('20201124145625'),
-('20201127233621'),
-('20201128003003'),
-('20201129144340'),
-('20201129145302'),
-('20201129152636'),
-('20201129153038'),
-('20201129153603'),
-('20201129161641'),
-('20201129175515'),
-('20201129191238'),
-('20201130020715'),
-('20201201015501'),
-('20201201023145'),
-('20201203052009'),
-('20201209230317'),
-('20201209232557'),
-('20201214215209'),
-('20201215152027'),
-('20201215161607'),
-('20201215163716'),
-('20201215164448'),
-('20201215181622'),
-('20201215182935'),
-('20201215183649'),
-('20201215184808'),
-('20201215190623'),
-('20201215191833'),
-('20201215192951'),
-('20201216022648'),
-('20201216023915'),
-('20201216025811'),
-('20201219210527'),
-('20201220130138'),
-('20201221182135'),
-('20201231194433'),
-('20210130043950'),
-('20210130052513'),
-('20210130180841'),
-('20210130202050'),
-('20210131194508'),
-('20210201201138'),
-('20210201223910'),
-('20210201225252'),
-('20210201225836'),
-('20210204025126'),
-('20210204045410'),
-('20210206191033'),
-('20210218170554'),
-('20210226155035'),
-('20210316082124'),
-('20210324141126'),
-('20210401194637'),
-('20210401210102'),
-('20210406225904'),
-('20210414201956'),
-('20210428143811'),
-('20210430160739'),
-('20210511011442'),
-('20210531223906'),
-('20210601023450'),
-('20210601023557'),
-('20210614120835'),
-('20210616003251'),
-('20210619191706'),
-('20210727111355'),
-('20210728214424'),
-('20210730120340'),
-('20210823162357'),
-('20210924022913'),
-('20211010164634'),
-('20211011214752'),
-('20211011233005'),
-('20211019121200'),
-('20211020221141'),
-('20211024105450'),
-('20211024105507'),
-('20211117200456'),
-('20211119085218'),
-('20211119110211'),
-('20211216125250'),
-('20220122105047'),
-('20220213031520'),
-('20220214121713'),
-('20220214232150'),
-('20220215095957'),
-('20220225222853'),
-('20220316025851'),
-('20220323001338'),
-('20220323001645'),
-('20220323004929'),
-('20220413123127'),
-('20220417203841'),
-('20220417220914'),
-('20220417221010'),
-('20220420143020'),
-('20220420154535'),
-('20220422190546'),
-('20220428145059'),
-('20220525122150'),
-('20220601111520'),
-('20220613224844'),
-('20220713200101'),
-('20220713200444'),
-('20220714191500'),
-('20220714191505'),
-('20220714191510'),
-('20220714191555'),
-('20220719111148'),
-('20220720153856'),
-('20220720161828'),
-('20220721170452'),
-('20220721200858'),
-('20220722000850'),
-('20220722192214'),
-('20220805181901'),
-('20220808141102'),
-('20220822132754'),
-('20221005165307'),
-('20221024000000'),
-('20221024221557'),
-('20221025025402'),
-('20221102144613'),
-('20221102145906'),
-('20221118032223'),
-('20221201143440'),
-('20221201154025'),
-('20221208173349'),
-('20221209142327'),
-('20221210155527'),
-('20221211005549'),
-('20221211012152'),
-('20221211141207'),
-('20221211141208'),
-('20221211141209'),
-('20221212021533'),
-('20230301145222'),
-('20230301212546'),
-('20230404025025'),
-('20230405032350'),
-('20230405141216'),
-('20230405141724'),
-('20230406021624'),
-('20230418194845'),
-('20230504084246'),
-('20230505024430'),
-('20230505031324'),
-('20230613111532'),
-('20230616203948'),
-('20230622205529'),
-('20230622205530'),
-('20230712163859'),
-('20230722180204'),
-('20230723011110'),
-('20230927001422'),
-('20231007095930'),
-('20231120094041'),
-('20231120175125'),
-('20231121135551'),
-('20231121203443'),
-('20231124200056'),
-('20231125152802'),
-('20231125152810'),
-('20231125230000'),
-('20231205202418'),
-('20231205205549'),
+('20240806082036'),
+('20240723152453'),
+('20240723140427'),
+('20240722133233'),
+('20240719195316'),
+('20240718234057'),
+('20240718234030'),
+('20240715230510'),
+('20240619170550'),
+('20240424122935'),
+('20240423143517'),
+('20240319141612'),
+('20240312182320'),
+('20240305165644'),
+('20240221015729'),
+('20240221002426'),
+('20240220233356'),
+('20240220164637'),
+('20240220111410'),
+('20240219221519'),
+('20240219220944'),
+('20231208162022'),
 ('20231205205600'),
-('20231208162022');
-
+('20231205205549'),
+('20231205202418'),
+('20231125230000'),
+('20231125152810'),
+('20231125152802'),
+('20231124200056'),
+('20231121203443'),
+('20231121135551'),
+('20231120175125'),
+('20231120094041'),
+('20231007095930'),
+('20230927001422'),
+('20230723011110'),
+('20230722180204'),
+('20230712163859'),
+('20230622205530'),
+('20230622205529'),
+('20230616203948'),
+('20230613111532'),
+('20230505031324'),
+('20230505024430'),
+('20230504084246'),
+('20230418194845'),
+('20230406021624'),
+('20230405141724'),
+('20230405141216'),
+('20230405032350'),
+('20230404025025'),
+('20230301212546'),
+('20230301145222'),
+('20221212021533'),
+('20221211141209'),
+('20221211141208'),
+('20221211141207'),
+('20221211012152'),
+('20221211005549'),
+('20221210155527'),
+('20221209142327'),
+('20221208173349'),
+('20221201154025'),
+('20221201143440'),
+('20221118032223'),
+('20221102145906'),
+('20221102144613'),
+('20221025025402'),
+('20221024221557'),
+('20221024000000'),
+('20221005165307'),
+('20220822132754'),
+('20220808141102'),
+('20220805181901'),
+('20220722192214'),
+('20220722000850'),
+('20220721200858'),
+('20220721170452'),
+('20220720161828'),
+('20220720153856'),
+('20220719111148'),
+('20220714191555'),
+('20220714191510'),
+('20220714191505'),
+('20220714191500'),
+('20220713200444'),
+('20220713200101'),
+('20220613224844'),
+('20220601111520'),
+('20220525122150'),
+('20220428145059'),
+('20220422190546'),
+('20220420154535'),
+('20220420143020'),
+('20220417221010'),
+('20220417220914'),
+('20220417203841'),
+('20220413123127'),
+('20220323004929'),
+('20220323001645'),
+('20220323001338'),
+('20220316025851'),
+('20220225222853'),
+('20220215095957'),
+('20220214232150'),
+('20220214121713'),
+('20220213031520'),
+('20220122105047'),
+('20211216125250'),
+('20211119110211'),
+('20211119085218'),
+('20211117200456'),
+('20211024105507'),
+('20211024105450'),
+('20211020221141'),
+('20211019121200'),
+('20211011233005'),
+('20211011214752'),
+('20211010164634'),
+('20210924022913'),
+('20210823162357'),
+('20210730120340'),
+('20210728214424'),
+('20210727111355'),
+('20210619191706'),
+('20210616003251'),
+('20210614120835'),
+('20210601023557'),
+('20210601023450'),
+('20210531223906'),
+('20210511011442'),
+('20210430160739'),
+('20210428143811'),
+('20210414201956'),
+('20210406225904'),
+('20210401210102'),
+('20210401194637'),
+('20210324141126'),
+('20210316082124'),
+('20210226155035'),
+('20210218170554'),
+('20210206191033'),
+('20210204045410'),
+('20210204025126'),
+('20210201225836'),
+('20210201225252'),
+('20210201223910'),
+('20210201201138'),
+('20210131194508'),
+('20210130202050'),
+('20210130180841'),
+('20210130052513'),
+('20210130043950'),
+('20201231194433'),
+('20201221182135'),
+('20201220130138'),
+('20201219210527'),
+('20201216025811'),
+('20201216023915'),
+('20201216022648'),
+('20201215192951'),
+('20201215191833'),
+('20201215190623'),
+('20201215184808'),
+('20201215183649'),
+('20201215182935'),
+('20201215181622'),
+('20201215164448'),
+('20201215163716'),
+('20201215161607'),
+('20201215152027'),
+('20201214215209'),
+('20201209232557'),
+('20201209230317'),
+('20201203052009'),
+('20201201023145'),
+('20201201015501'),
+('20201130020715'),
+('20201129191238'),
+('20201129175515'),
+('20201129161641'),
+('20201129153603'),
+('20201129153038'),
+('20201129152636'),
+('20201129145302'),
+('20201129144340'),
+('20201128003003'),
+('20201127233621'),
+('20201124145625'),
+('20201124142002'),
+('20201124050637'),
+('20201124035715'),
+('20201119125643'),
+('20201110170728'),
+('20201110170225'),
+('20201108203930'),
+('20201108201914'),
+('20201106155800'),
+('20201105154106'),
+('20201103175114'),
+('20201102232506'),
+('20201029220052'),
+('20201029162732'),
+('20201029153649'),
+('20201021214107'),
+('20201009004421'),
+('20200921123831'),
+('20200919003430'),
+('20200916022934'),
+('20200907174303'),
+('20200907165157'),
+('20200727021707'),
+('20200723133542'),
+('20200722210144'),
+('20200720013144'),
+('20200720005020'),
+('20200622193241'),
+('20200430101709'),
+('20200428155536'),
+('20200427091939'),
+('20200423092828'),
+('20200422103916'),
+('20200324164130'),
+('20200320152017'),
+('20200319183515'),
+('20200228235200'),
+('20200224134339'),
+('20200221181049'),
+('20200106174710'),
+('20191231102721'),
+('20191219011910'),
+('20191205204511'),
+('20191205202150'),
+('20191205200007'),
+('20191021021621'),
+('20191016100031'),
+('20191012042159'),
+('20190926143845'),
+('20190926133640'),
+('20190926104551'),
+('20190926104116'),
+('20190924112646'),
+('20190924013712'),
+('20190830172824'),
+('20190818013251'),
+('20190804223012'),
+('20190726203302'),
+('20190715182611'),
+('20190715083916'),
+('20190703044126'),
+('20190625140232'),
+('20190625112649'),
+('20190618135559'),
+('20190612111043'),
+('20190605143420'),
+('20190430112229'),
+('20190426125052'),
+('20190418123920'),
+('20190418014012'),
+('20190418011743'),
+('20190406164301'),
+('20190406141156'),
+('20190401175521'),
+('20190331111015'),
+('20190326150948'),
+('20190322102311'),
+('20190308195346'),
+('20190208103518'),
+('20190128032125'),
+('20190110191802'),
+('20190109125417'),
+('20181227210510'),
+('20181227114431'),
+('20181227100523'),
+('20181227095037'),
+('20181227094559'),
+('20181227093834'),
+('20181219085236'),
+('20181218215222'),
+('20181218165559'),
+('20181218165548'),
+('20181213103204'),
+('20181130112320'),
+('20181018003945'),
+('20181017094456'),
+('20181012110629'),
+('20181011104537'),
+('20180921120954'),
+('20180920031351'),
+('20180917072914'),
+('20180914153010'),
+('20180912114413'),
+('20180910132139'),
+('20180905031617'),
+('20180905031342'),
+('20180810221619'),
+('20180801105304'),
+('20180726234755'),
+('20180726213123'),
+('20180724202353'),
+('20180724135332'),
+('20180720171842'),
+('20180720140443'),
+('20180719015902'),
+('20180718094829'),
+('20180717135811'),
+('20180717134314'),
+('20180509111948'),
+('20180427194732'),
+('20180320230847'),
+('20180225152848'),
+('20180126055129'),
+('20180126035129'),
+('20171019133203'),
+('20170928100402'),
+('20170609131212'),
+('20170529154413'),
+('20170529020218'),
+('20170526131129'),
+('20170526124219'),
+('20170526100040'),
+('20170526084502'),
+('20170503145808'),
+('20170414035328'),
+('20170413185012'),
+('20170406213334'),
+('20170405104322'),
+('20161108102349'),
+('20161103083352'),
+('20161103081041'),
+('20161103080156'),
+('20161027233011'),
+('20161026110802'),
+('20161010152631'),
+('20161009111443'),
+('20160725131347'),
+('20160725123242'),
+('20160724164110'),
+('20160724160049'),
+('20160719214520'),
+('20160719195853'),
+('20160519195544'),
+('20160316100626'),
+('20160316100625'),
+('20160316100624'),
+('20160316100623'),
+('20160316100622'),
+('20160316100621'),
+('20160316100620'),
+('20160316094627'),
+('20160316093659'),
+('20151130101417'),
+('20151127102425'),
+('20151124110943'),
+('20151020203421'),
+('20150826000000'),
+('20150809032138'),
+('20150803082520'),
+('20150724003736'),
+('20150717101243'),
+('20150716192356'),
+('20150716171420'),
+('20150710114451'),
+('20150707164448'),
+('20150616100551'),
+('20150616100351'),
+('20150616095023'),
+('20150609094820'),
+('20150609094809'),
+('20150602104342'),
+('20150602095241'),
+('20150602094513'),
+('20150528100944'),
+('20150521181918'),
+('20150510125926'),
+('20150505084914'),
+('20150503120915'),
+('20150416090140'),
+('20150416074423'),
+('20150413160159'),
+('20150413160158'),
+('20150413160157'),
+('20150413160156'),
+('20150413000000'),
+('20150317084737'),
+('20150313153722'),
+('20141111203313'),
+('20141111102451'),
+('20141002140242'),
+('20140922110956'),
+('20140922102737'),
+('20140918115412'),
+('20140909165233'),
+('20140901106000'),
+('20140901105741'),
+('20140827142659'),
+('20140815111351'),
+('20140804202958'),
+('20140804202101'),
+('20140804202100'),
+('20140528043115'),
+('20140527110223'),
+('20140518120059'),
+('20140514142421'),
+('20140313012209'),
+('20140211172443'),
+('20140211164659'),
+('20140211162355'),
+('20140207102739'),
+('20140207102709'),
+('20140129151136'),
+('20140117212555'),
+('20131223175141'),
+('20131220103409'),
+('20131210221541'),
+('20131206081531'),
+('20131204183530'),
+('20131204143718'),
+('20131204140000'),
+('20131204135932'),
+('20131128151014');
 
