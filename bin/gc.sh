@@ -15,8 +15,6 @@ echo "Ruta de la aplicación: $rutaap"
 
 . ${rutaap}.env
 
-bin/detiene
-
 s=`grep -B 1 "^ *path" Gemfile 2> /dev/null`
 if (test "$?" = "0") then {
   echo "Gemfile incluye gema cableada al sistema de archivos ($s)"
@@ -42,7 +40,7 @@ if (test "$SINAC" != "1") then {
     echo "Eliminando $rutapore/*"
     rm -rf $rutapore/*
   } fi;
-  NOKOGIRI_USE_SYSTEM_LIBRARIES=1 MAKE=gmake make=gmake QMAKE=qmake4 bundle update
+  NOKOGIRI_USE_SYSTEM_LIBRARIES=1 MAKE=gmake make=gmake QMAKE=qmake4 bundle update --conservative
   NOKOGIRI_USE_SYSTEM_LIBRARIES=1 MAKE=gmake make=gmake QMAKE=qmake4 bundle update --bundler
   if (test "$?" != "0") then {
     exit 1;
