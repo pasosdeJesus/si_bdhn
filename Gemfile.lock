@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/heb412_gen.git
-  revision: 5bbc1c1476797206a44a70802e2553c067b5ea08
+  revision: f98dc89f1bc83878ad6c7d71802fb53ad63c629e
   branch: v2.2
   specs:
     heb412_gen (2.2.0.beta7)
@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/mr519_gen.git
-  revision: f792ce2ded8e68217903d5049243797c13b95c4a
+  revision: 920b688159c414e74159d71a12625fe67490f988
   branch: v2.2
   specs:
     mr519_gen (2.2.0.beta7)
@@ -54,17 +54,9 @@ GIT
       rails
 
 GIT
-  remote: https://gitlab.com/pasosdeJesus/sivel2_gen.git
-  revision: 754fced6d9bdeb9b8cf9b40a26d57f544b3da45b
+  remote: https://gitlab.com/pasosdeJesus/msip.git
+  revision: 0ee4fc1a422cc210b805236e18a2753413938d3e
   branch: v2.2
-  specs:
-    sivel2_gen (2.2.0.beta7)
-      color
-      devise
-      rails
-
-PATH
-  remote: ../msip-2.2
   specs:
     msip (2.2.0.beta7)
       cancancan (~> 3)
@@ -80,6 +72,16 @@ PATH
       stimulus-rails (~> 1)
       twitter_cldr (~> 6)
       will_paginate (~> 3)
+
+GIT
+  remote: https://gitlab.com/pasosdeJesus/sivel2_gen.git
+  revision: 3025cd34482382e95c1609b35d26fa81a6bfa284
+  branch: v2.2
+  specs:
+    sivel2_gen (2.2.0.beta7)
+      color
+      devise
+      rails
 
 GEM
   remote: https://rubygems.org/
@@ -534,4 +536,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   2.5.17
+   2.5.21
