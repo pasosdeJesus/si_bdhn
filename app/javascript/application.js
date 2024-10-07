@@ -3,6 +3,7 @@
 console.log('Hola Mundo desde ESM')
 
 import Rails from "@rails/ujs";
+import "@hotwired/turbo-rails"; 
 Rails.start();
 window.Rails = Rails
 
@@ -10,9 +11,27 @@ import './jquery'
 
 import 'popper.js'              // Dialogos emergentes usados por bootstrap
 import * as bootstrap from 'bootstrap'              // Maquetacion y elementos de diseño
-import 'chosen-js/chosen.jquery';       // Cuadros de seleccion potenciados
-import 'bootstrap-datepicker'
-import 'bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js'
+
+import TomSelect from 'tom-select';
+window.TomSelect = TomSelect;
+window.configuracionTomSelect = {
+    create: false,
+    diacritics: true, //no sensitivo a acentos
+    sortField: {
+          field: "text",
+          direction: "asc"
+        }
+}
+
+import Msip__Motor from "./controllers/msip/motor"
+window.Msip__Motor = Msip__Motor
+Msip__Motor.iniciar()
+import Mr519Gen__Motor from "./controllers/mr519_gen/motor"
+window.Mr519Gen__Motor = Mr519Gen__Motor
+import Heb412Gen__Motor from "./controllers/heb412_gen/motor"
+window.Heb412Gen__Motor = Heb412Gen__Motor
+import Sivel2Gen__Motor from "./controllers/sivel2_gen/motor"
+window.Sivel2Gen__Motor = Sivel2Gen__Motor
 
 // Apexcharts
 import ApexCharts from 'apexcharts'
@@ -25,12 +44,11 @@ Apex.chart = {
 
 import 'gridstack'
 
-
 // Leaflet
 var L = require('leaflet');
 var mc= require('leaflet.markercluster');
 
-import plotly_serietiempo_actos from './plotly_actos'
+//import plotly_serietiempo_actos from './plotly_actos'
 
 import {AutocompletaAjaxExpreg} from '@pasosdejesus/autocompleta_ajax'
 window.AutocompletaAjaxExpreg = AutocompletaAjaxExpreg
@@ -61,8 +79,9 @@ promesaRecursosSprocketsYDocumento.then((mensaje) => {
   heb412_gen_prepara_eventos_comunes(root);
   mr519_gen_prepara_eventos_comunes(root);
   sivel2_gen_prepara_eventos_comunes(root);
-  apo214_prepara_eventos_comunes(root);
   sivel2_gen_prepara_eventos_unicos(root);
+
+  Msip__Motor.ejecutarAlCargarDocumentoYRecursos()
 
   var p = new URL(document.URL).pathname.split('/')
   var p2ult = ''
@@ -71,7 +90,7 @@ promesaRecursosSprocketsYDocumento.then((mensaje) => {
   }
   console.log("p2ult=" + p2ult)
   if (p2ult == 'graficar/actos_individuales') {
-    plotly_serietiempo_actos() 
+    //plotly_serietiempo_actos() 
   }
 
 

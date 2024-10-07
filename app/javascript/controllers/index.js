@@ -7,21 +7,6 @@ import { application } from "./application"
 import ActualizaFilaController from "./actualiza_fila_controller"
 application.register("actualiza-fila", ActualizaFilaController)
 
-import Apo214__ActualizaFilaController from "./apo214/actualiza_fila_controller"
-application.register("apo214--actualiza-fila", Apo214__ActualizaFilaController)
-
-import Apo214__DragController from "./apo214/drag_controller"
-application.register("apo214--drag", Apo214__DragController)
-
-import Apo214__FormAsisreconocimientoController from "./apo214/form_asisreconocimiento_controller"
-application.register("apo214--form-asisreconocimiento", Apo214__FormAsisreconocimientoController)
-
-import DragController from "./drag_controller"
-application.register("drag", DragController)
-
-import FormAsisreconocimientoController from "./form_asisreconocimiento_controller"
-application.register("form-asisreconocimiento", FormAsisreconocimientoController)
-
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
@@ -45,9 +30,3 @@ application.register("sivel2-gen--edad", Sivel2Gen__EdadController)
 
 import Sivel2Gen__EnviarFichaCasoController from "./sivel2_gen/enviar_ficha_caso_controller"
 application.register("sivel2-gen--enviar-ficha-caso", Sivel2Gen__EnviarFichaCasoController)
-
-import Sivel2Gen__MapaosmController from "./sivel2_gen/mapaosm_controller"
-application.register("sivel2-gen--mapaosm", Sivel2Gen__MapaosmController)
-
-import Sivel2Gen__MotorController from "./sivel2_gen/motor_controller"
-application.register("sivel2-gen--motor", Sivel2Gen__MotorController)

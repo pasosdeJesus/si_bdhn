@@ -54,7 +54,7 @@ gem "rack", "~> 2"
 
 gem "rack-cors"
 
-gem "rails", ">= 7.1", "<7.2"
+gem "rails", "~> 7.2"
   #git: "https://github.com/rails/rails.git", branch: "6-1-stable"
 
 gem "rails-i18n"
@@ -87,24 +87,20 @@ gem "will_paginate" # Listados en páginas
 # estas ponerse en orden de apilamiento lógico y no alfabético).
 
 gem "msip", # Motor generico
-  git: "https://gitlab.com/pasosdeJesus/msip.git", branch: "main"
-  #path: "../msip"
+  #git: "https://gitlab.com/pasosdeJesus/msip.git", branch: "v2.2"
+  path: "../msip-2.2"
 
 gem "mr519_gen", # Motor de gestion de formularios y encuestas
-  git: "https://gitlab.com/pasosdeJesus/mr519_gen.git", branch: "main"
-  #path: "../mr519_gen"
+  git: "https://gitlab.com/pasosdeJesus/mr519_gen.git", branch: "v2.2"
+  #path: "../mr519_gen-2.2"
 
 gem "heb412_gen",  # Motor de nube y llenado de plantillas
-  git: "https://gitlab.com/pasosdeJesus/heb412_gen.git", branch: "main"
-  #path: "../heb412_gen"
+  git: "https://gitlab.com/pasosdeJesus/heb412_gen.git", branch: "v2.2"
+  #path: "../heb412_gen-2.2"
 
 gem "sivel2_gen", # Motor para manejo de casos
-  git: "https://gitlab.com/pasosdeJesus/sivel2_gen.git", branch: "main"
-  #path: "../sivel2_gen"
-
-gem "apo214", # Motor para manejo de casos
-  git: "https://gitlab.com/pasosdeJesus/apo214.git", branch: "main"
-  #path: "../apo214"
+  git: "https://gitlab.com/pasosdeJesus/sivel2_gen.git", branch: "v2.2"
+  #path: "../sivel2_gen-2.2"
 
 group  :development, :test do
   gem "debug" # Depurar

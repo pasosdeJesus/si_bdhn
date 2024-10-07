@@ -34,20 +34,11 @@ GIT
     cocoon (1.2.11)
 
 GIT
-  remote: https://gitlab.com/pasosdeJesus/apo214.git
-  revision: 1f375c0276ba313b25ebcdd8bec17e496ce2157b
-  branch: main
-  specs:
-    apo214 (2.2.0.beta4)
-      msip
-      rails
-
-GIT
   remote: https://gitlab.com/pasosdeJesus/heb412_gen.git
-  revision: 3695771db89aee8864f4807ba32aedb4a9c762ab
-  branch: main
+  revision: 5bbc1c1476797206a44a70802e2553c067b5ea08
+  branch: v2.2
   specs:
-    heb412_gen (2.3.0.alfa1)
+    heb412_gen (2.2.0.beta7)
       mr519_gen
       msip
       redcarpet
@@ -55,19 +46,27 @@ GIT
 
 GIT
   remote: https://gitlab.com/pasosdeJesus/mr519_gen.git
-  revision: 84f57864341b7bfa82084ce993b0e815769caf7f
-  branch: main
+  revision: f792ce2ded8e68217903d5049243797c13b95c4a
+  branch: v2.2
   specs:
-    mr519_gen (2.3.0.alfa1)
+    mr519_gen (2.2.0.beta7)
       msip
       rails
 
 GIT
-  remote: https://gitlab.com/pasosdeJesus/msip.git
-  revision: e38d92691458d2dfe8e1a3afd2bef95d9889b018
-  branch: main
+  remote: https://gitlab.com/pasosdeJesus/sivel2_gen.git
+  revision: 754fced6d9bdeb9b8cf9b40a26d57f544b3da45b
+  branch: v2.2
   specs:
-    msip (2.3.0.alfa1)
+    sivel2_gen (2.2.0.beta7)
+      color
+      devise
+      rails
+
+PATH
+  remote: ../msip-2.2
+  specs:
+    msip (2.2.0.beta7)
       cancancan (~> 3)
       devise (~> 4)
       devise-i18n (~> 1)
@@ -82,98 +81,84 @@ GIT
       twitter_cldr (~> 6)
       will_paginate (~> 3)
 
-GIT
-  remote: https://gitlab.com/pasosdeJesus/sivel2_gen.git
-  revision: 05e764ebc93dbe149d0ecf0a0ab434b7913e4499
-  branch: main
-  specs:
-    sivel2_gen (2.3.0.alfa1)
-      color
-      devise
-      rails
-
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (7.1.3.2)
-      actionpack (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
+    actioncable (7.2.1)
+      actionpack (= 7.2.1)
+      activesupport (= 7.2.1)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
       zeitwerk (~> 2.6)
-    actionmailbox (7.1.3.2)
-      actionpack (= 7.1.3.2)
-      activejob (= 7.1.3.2)
-      activerecord (= 7.1.3.2)
-      activestorage (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
-      mail (>= 2.7.1)
-      net-imap
-      net-pop
-      net-smtp
-    actionmailer (7.1.3.2)
-      actionpack (= 7.1.3.2)
-      actionview (= 7.1.3.2)
-      activejob (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
-      mail (~> 2.5, >= 2.5.4)
-      net-imap
-      net-pop
-      net-smtp
+    actionmailbox (7.2.1)
+      actionpack (= 7.2.1)
+      activejob (= 7.2.1)
+      activerecord (= 7.2.1)
+      activestorage (= 7.2.1)
+      activesupport (= 7.2.1)
+      mail (>= 2.8.0)
+    actionmailer (7.2.1)
+      actionpack (= 7.2.1)
+      actionview (= 7.2.1)
+      activejob (= 7.2.1)
+      activesupport (= 7.2.1)
+      mail (>= 2.8.0)
       rails-dom-testing (~> 2.2)
-    actionpack (7.1.3.2)
-      actionview (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
+    actionpack (7.2.1)
+      actionview (= 7.2.1)
+      activesupport (= 7.2.1)
       nokogiri (>= 1.8.5)
       racc
-      rack (>= 2.2.4)
+      rack (>= 2.2.4, < 3.2)
       rack-session (>= 1.0.1)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    actiontext (7.1.3.2)
-      actionpack (= 7.1.3.2)
-      activerecord (= 7.1.3.2)
-      activestorage (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
+      useragent (~> 0.16)
+    actiontext (7.2.1)
+      actionpack (= 7.2.1)
+      activerecord (= 7.2.1)
+      activestorage (= 7.2.1)
+      activesupport (= 7.2.1)
       globalid (>= 0.6.0)
       nokogiri (>= 1.8.5)
-    actionview (7.1.3.2)
-      activesupport (= 7.1.3.2)
+    actionview (7.2.1)
+      activesupport (= 7.2.1)
       builder (~> 3.1)
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activejob (7.1.3.2)
-      activesupport (= 7.1.3.2)
+    activejob (7.2.1)
+      activesupport (= 7.2.1)
       globalid (>= 0.3.6)
-    activemodel (7.1.3.2)
-      activesupport (= 7.1.3.2)
-    activerecord (7.1.3.2)
-      activemodel (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
+    activemodel (7.2.1)
+      activesupport (= 7.2.1)
+    activerecord (7.2.1)
+      activemodel (= 7.2.1)
+      activesupport (= 7.2.1)
       timeout (>= 0.4.0)
-    activestorage (7.1.3.2)
-      actionpack (= 7.1.3.2)
-      activejob (= 7.1.3.2)
-      activerecord (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
+    activestorage (7.2.1)
+      actionpack (= 7.2.1)
+      activejob (= 7.2.1)
+      activerecord (= 7.2.1)
+      activesupport (= 7.2.1)
       marcel (~> 1.0)
-    activesupport (7.1.3.2)
+    activesupport (7.2.1)
       base64
       bigdecimal
-      concurrent-ruby (~> 1.0, >= 1.0.2)
+      concurrent-ruby (~> 1.0, >= 1.3.1)
       connection_pool (>= 2.2.5)
       drb
       i18n (>= 1.6, < 2)
+      logger (>= 1.4.2)
       minitest (>= 5.1)
-      mutex_m
-      tzinfo (~> 2.0)
+      securerandom (>= 0.3)
+      tzinfo (~> 2.0, >= 2.0.5)
     acts_as_list (1.2.2)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
-    addressable (2.8.6)
-      public_suffix (>= 2.0.2, < 6.0)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     andand (1.3.3)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
@@ -181,11 +166,11 @@ GEM
       execjs (~> 2.0)
     base64 (0.2.0)
     bcrypt (3.1.20)
-    bigdecimal (3.1.6)
+    bigdecimal (3.1.8)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
-    builder (3.2.4)
+    builder (3.3.0)
     camertron-eprun (1.1.1)
     cancancan (3.6.1)
     capybara (3.40.0)
@@ -209,12 +194,12 @@ GEM
     coffee-script-source (1.12.2)
     color (1.8)
     colorize (1.1.0)
-    concurrent-ruby (1.2.3)
+    concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     crass (1.0.6)
-    cuprite (0.15)
+    cuprite (0.15.1)
       capybara (~> 3.0)
-      ferrum (~> 0.14.0)
+      ferrum (~> 0.15.0)
     date (3.3.4)
     debug (1.9.2)
       irb (~> 1.10)
@@ -227,26 +212,25 @@ GEM
       warden (~> 1.2.3)
     devise-i18n (1.12.1)
       devise (>= 4.9.0)
-    docile (1.4.0)
-    dotenv (3.0.2)
-    dotenv-rails (3.0.2)
-      dotenv (= 3.0.2)
+    docile (1.4.1)
+    dotenv (3.1.4)
+    dotenv-rails (3.1.4)
+      dotenv (= 3.1.4)
       railties (>= 6.1)
-    drb (2.2.0)
-      ruby2_keywords
-    dry-configurable (1.1.0)
+    drb (2.2.1)
+    dry-configurable (1.2.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
     dry-core (1.0.1)
       concurrent-ruby (~> 1.0)
       zeitwerk (~> 2.6)
-    dry-inflector (1.0.0)
+    dry-inflector (1.1.0)
     dry-initializer (3.1.1)
     dry-logic (1.5.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
-    dry-schema (1.13.3)
+    dry-schema (1.13.4)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 1.0, >= 1.0.1)
       dry-core (~> 1.0, < 2)
@@ -264,34 +248,34 @@ GEM
     erd (0.8.2)
       nokogiri
       ruby-graphviz
-    erubi (1.12.0)
+    erubi (1.13.0)
     execjs (2.9.1)
-    ferrum (0.14)
+    ferrum (0.15)
       addressable (~> 2.5)
       concurrent-ruby (~> 1.1)
       webrick (~> 1.7)
-      websocket-driver (>= 0.6, < 0.8)
-    ffi (1.16.3)
+      websocket-driver (~> 0.7)
+    ffi (1.17.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hotwire-rails (0.1.3)
       rails (>= 6.0.0)
       stimulus-rails
       turbo-rails
-    i18n (1.14.1)
+    i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
-    irb (1.11.2)
-      rdoc
+    irb (1.14.1)
+      rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jbuilder (2.12.0)
+    jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
     kgio (2.11.4)
     libxml-ruby (5.0.3)
-    logger (1.6.0)
+    logger (1.6.1)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -300,26 +284,26 @@ GEM
       net-imap
       net-pop
       net-smtp
-    marcel (1.0.2)
+    marcel (1.0.4)
     matrix (0.4.2)
-    mime-types (3.5.2)
+    mime-types (3.6.0)
+      logger
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2024.0206)
+    mime-types-data (3.2024.1001)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
-    minitest (5.22.2)
-    msgpack (1.7.2)
-    mutex_m (0.2.0)
-    net-imap (0.4.10)
+    mini_portile2 (2.8.7)
+    minitest (5.25.1)
+    msgpack (1.7.3)
+    net-imap (0.4.16)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-smtp (0.4.0.1)
+    net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.0)
+    nio4r (2.7.3)
     nokogiri (1.16.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -328,11 +312,12 @@ GEM
       nokogiri (>= 1.12.0)
       rubyzip (>= 1.3.0)
     orm_adapter (0.5.0)
-    pdf-core (0.9.0)
-    pg (1.5.7)
-    prawn (2.4.0)
-      pdf-core (~> 0.9.0)
-      ttfunk (~> 1.7)
+    pdf-core (0.10.0)
+    pg (1.5.8)
+    prawn (2.5.0)
+      matrix (~> 0.4)
+      pdf-core (~> 0.10.0)
+      ttfunk (~> 1.8)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
     prawnto_2 (0.3.1)
@@ -340,10 +325,10 @@ GEM
       rails (>= 3.2)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.4)
-    puma (6.4.2)
+    public_suffix (6.0.1)
+    puma (6.4.3)
       nio4r (~> 2.0)
-    racc (1.7.3)
+    racc (1.8.1)
     rack (2.2.9)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
@@ -354,20 +339,20 @@ GEM
     rackup (1.0.0)
       rack (< 3)
       webrick
-    rails (7.1.3.2)
-      actioncable (= 7.1.3.2)
-      actionmailbox (= 7.1.3.2)
-      actionmailer (= 7.1.3.2)
-      actionpack (= 7.1.3.2)
-      actiontext (= 7.1.3.2)
-      actionview (= 7.1.3.2)
-      activejob (= 7.1.3.2)
-      activemodel (= 7.1.3.2)
-      activerecord (= 7.1.3.2)
-      activestorage (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
+    rails (7.2.1)
+      actioncable (= 7.2.1)
+      actionmailbox (= 7.2.1)
+      actionmailer (= 7.2.1)
+      actionpack (= 7.2.1)
+      actiontext (= 7.2.1)
+      actionview (= 7.2.1)
+      activejob (= 7.2.1)
+      activemodel (= 7.2.1)
+      activerecord (= 7.2.1)
+      activestorage (= 7.2.1)
+      activesupport (= 7.2.1)
       bundler (>= 1.15.0)
-      railties (= 7.1.3.2)
+      railties (= 7.2.1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -383,36 +368,35 @@ GEM
     rails-i18n (7.0.9)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
-    railties (7.1.3.2)
-      actionpack (= 7.1.3.2)
-      activesupport (= 7.1.3.2)
-      irb
+    railties (7.2.1)
+      actionpack (= 7.2.1)
+      activesupport (= 7.2.1)
+      irb (~> 1.13)
       rackup (>= 1.0.0)
       rake (>= 12.2)
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     raindrops (0.20.1)
-    rake (13.1.0)
-    rdoc (6.6.2)
+    rake (13.2.1)
+    rdoc (6.7.0)
       psych (>= 4.0.0)
     redcarpet (3.6.0)
-    redis (5.1.0)
-      redis-client (>= 0.17.0)
-    redis-client (0.20.0)
+    redis (5.3.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.22.2)
       connection_pool
-    regexp_parser (2.9.0)
-    reline (0.4.2)
+    regexp_parser (2.9.2)
+    reline (0.5.10)
       io-console (~> 0.5)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.2.6)
+    rexml (3.3.8)
     rspreadsheet (0.5.3)
       andand (>= 1.3)
       rubyzip (>= 1.3)
     ruby-graphviz (1.2.5)
       rexml
-    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -422,7 +406,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.23.0)
+    securerandom (0.3.1)
+    selenium-webdriver (4.25.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
@@ -435,7 +420,7 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
-    simplecov-html (0.12.3)
+    simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
     smart_kv (0.2.8.1)
     spring (4.2.1)
@@ -448,13 +433,14 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
-    stringio (3.1.0)
+    stringio (3.1.1)
     terrapin (1.0.1)
       climate_control
-    thor (1.3.0)
-    tilt (2.3.0)
+    thor (1.3.2)
+    tilt (2.4.0)
     timeout (0.4.1)
-    ttfunk (1.7.0)
+    ttfunk (1.8.0)
+      bigdecimal (~> 3.1)
     turbo-rails (1.5.0)
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
@@ -468,6 +454,7 @@ GEM
     unicorn (6.1.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
+    useragent (0.16.10)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -475,15 +462,15 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webrick (1.8.1)
-    websocket (1.2.10)
+    webrick (1.8.2)
+    websocket (1.2.11)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (3.3.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.13)
+    zeitwerk (2.6.18)
 
 PLATFORMS
   x86_64-openbsd
@@ -491,7 +478,6 @@ PLATFORMS
 DEPENDENCIES
   acts_as_list
   apexcharts!
-  apo214!
   babel-transpiler
   bcrypt
   best_in_place!
@@ -525,7 +511,7 @@ DEPENDENCIES
   puma
   rack (~> 2)
   rack-cors
-  rails (>= 7.1, < 7.2)
+  rails (~> 7.2)
   rails-erd
   rails-i18n
   redcarpet

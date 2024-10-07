@@ -55,3 +55,4 @@ app/views/msip/hogar/_local.html.erb
 cobertura-sistema/
 cobertura-unitarias/
 app/javascript/controllers/sip
+test/puppeteer/yarn-error.log
