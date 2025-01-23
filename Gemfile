@@ -24,6 +24,8 @@ gem "coffee-rails" # CoffeeScript para recuersos .js.coffee y vistas
 
 gem "color"
 
+gem "csv"
+
 gem "devise" # Autenticación y roles
 
 gem "devise-i18n"
