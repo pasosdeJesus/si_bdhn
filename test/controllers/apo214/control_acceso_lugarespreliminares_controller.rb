@@ -1,15 +1,17 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 module Apo214
   class ControlAccesoLugarespreliminaresControllerTest < ActionDispatch::IntegrationTest
-
     include Rails.application.routes.url_helpers
     include Devise::Test::IntegrationHelpers
 
-    setup  do
-      if ENV['CONFIG_HOSTS'] != 'www.example.com'
-        raise 'CONFIG_HOSTS debe ser www.example.com'
+    setup do
+      if ENV["CONFIG_HOSTS"] != "www.example.com"
+        raise "CONFIG_HOSTS debe ser www.example.com"
       end
+
       @persona = Msip::Persona.create!(PRUEBA_PERSONA)
       @lugarpreliminar = Apo214::Lugarpreliminar.create!(PRUEBA_LUGARPRELIMINAR)
     end
@@ -37,12 +39,11 @@ module Apo214
 
     test "sin autenticar no debe crear lugarprelimianr" do
       assert_raise CanCan::AccessDenied do
-        post apo214.lugarespreliminares_path, params: { 
-          lugarpreliminar: PRUEBA_LUGARPRELIMINAR
+        post apo214.lugarespreliminares_path, params: {
+          lugarpreliminar: PRUEBA_LUGARPRELIMINAR,
         }
       end
     end
-
 
     test "sin autenticar no debe editar lugarpreliminar" do
       assert_raise CanCan::AccessDenied do
@@ -62,7 +63,6 @@ module Apo214
       end
     end
 
-
     test "autenticaodo como operador no elimina" do
       current_usuario = Usuario.create!(PRUEBA_USUARIO_OP)
       sign_in current_usuario
@@ -70,6 +70,5 @@ module Apo214
         delete apo214.lugarpreliminar_path(@lugarpreliminar.id)
       end
     end
-
   end
 end

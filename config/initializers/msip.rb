@@ -1,13 +1,19 @@
-require 'sivel2_gen/version'
+# frozen_string_literal: true
+
+require "sivel2_gen/version"
 
 Msip.setup do |config|
-  config.ruta_anexos = ENV.fetch('MSIP_RUTA_ANEXOS', 
-                                 "#{Rails.root}/archivos/anexos/")
-  config.ruta_volcados = ENV.fetch('MSIP_RUTA_VOLCADOS',
-                                   "#{Rails.root}/archivos/bd/")
+  config.ruta_anexos = ENV.fetch(
+    "MSIP_RUTA_ANEXOS",
+    "#{Rails.root.join("archivos/anexos/")}",
+  )
+  config.ruta_volcados = ENV.fetch(
+    "MSIP_RUTA_VOLCADOS",
+    "#{Rails.root.join("archivos/bd/")}",
+  )
   # En heroku los anexos son super-temporales
   if ENV["HEROKU_POSTGRESQL_MAUVE_URL"]
-    config.ruta_anexos = "#{Rails.root}/tmp/"
+    config.ruta_anexos = "#{Rails.root.join("tmp/")}"
   end
   config.titulo = "BDHN #{Sivel2Gen::VERSION}"
   config.paisomision = 340
@@ -17,15 +23,14 @@ Msip.setup do |config|
   config.urlcontribuyentes = "https://gitlab.com/pasosdeJesus/si_bdhn/-/graphs/main"
   config.urlcreditos = "https://gitlab.com/pasosdeJesus/si_bdhn/-/blob/main/CREDITOS.md"
   config.agradecimientoDios = "<p>
-  Agradecemos a Dios por su palabra y por permitir este desarrollo, el cual 
+  Agradecemos a Dios por su palabra y por permitir este desarrollo, el cual
   le dedicamos.
   </p>
 <blockquote>
-Pero recibiréis poder, cuando haya venido sobre vosotros el Espíritu Santo, 
-y me seréis testigos en Jerusalén, en toda Judea, en Samaria, 
+Pero recibiréis poder, cuando haya venido sobre vosotros el Espíritu Santo,
+y me seréis testigos en Jerusalén, en toda Judea, en Samaria,
 y hasta lo último de la tierra.
 <br>
 Hechos 1:8
 <blockquote>".html_safe
-
 end

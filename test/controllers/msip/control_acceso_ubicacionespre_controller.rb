@@ -1,15 +1,17 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 module Msip
   class ControlAccesoUbicacionespreControllerTest < ActionDispatch::IntegrationTest
-
     include Rails.application.routes.url_helpers
     include Devise::Test::IntegrationHelpers
 
-    setup  do
-      if ENV['CONFIG_HOSTS'] != 'www.example.com'
-        raise 'CONFIG_HOSTS debe ser www.example.com'
+    setup do
+      if ENV["CONFIG_HOSTS"] != "www.example.com"
+        raise "CONFIG_HOSTS debe ser www.example.com"
       end
+
       @gupoper = Msip::Grupoper.create!(PRUEBA_GRUPOPER)
       @ubicacionpre = Msip::Ubicacionpre.create!(PRUEBA_UBICACIONPRE)
     end
@@ -19,24 +21,26 @@ module Msip
 
     test "sin autenticar debe presentar listado" do
       get msip.ubicacionespre_path
+
       assert_response :ok
     end
 
     test "sin autenticar debe presentar resumen de existente" do
       get msip.ubicacionpre_path(@ubicacionpre.id)
+
       assert_response :ok
     end
 
     test "sin autenticar no debe ver formulario de nuevo" do
       assert_raise CanCan::AccessDenied do
-        get msip.new_ubicacionpre_path()
+        get msip.new_ubicacionpre_path
       end
     end
 
     test "sin autenticar no debe crear" do
       assert_raise CanCan::AccessDenied do
-        post msip.ubicacionespre_path, params: { 
-          ubicacionpre: PRUEBA_UBICACIONPRE
+        post msip.ubicacionespre_path, params: {
+          ubicacionpre: PRUEBA_UBICACIONPRE,
         }
       end
     end
@@ -66,6 +70,7 @@ module Msip
       current_usuario = Usuario.create!(PRUEBA_USUARIO_OP)
       sign_in current_usuario
       get msip.ubicacionespre_path
+
       assert_response :ok
     end
 
@@ -73,6 +78,7 @@ module Msip
       current_usuario = Usuario.create!(PRUEBA_USUARIO_OP)
       sign_in current_usuario
       get msip.ubicacionpre_path(@ubicacionpre.id)
+
       assert_response :ok
     end
 
@@ -99,13 +105,14 @@ module Msip
       current_usuario = Usuario.create!(PRUEBA_USUARIO_AN)
       current_usuario.grupo_ids = [20]
       current_usuario.save
-      return current_usuario
+      current_usuario
     end
 
     test "autenticado como operador analista debe presentar listado" do
       current_usuario = inicia_analista
       sign_in current_usuario
       get msip.ubicacionespre_path
+
       assert_response :ok
     end
 
@@ -113,6 +120,7 @@ module Msip
       current_usuario = inicia_analista
       sign_in current_usuario
       get msip.ubicacionpre_path(@ubicacionpre.id)
+
       assert_response :ok
     end
 
@@ -131,6 +139,5 @@ module Msip
         delete msip.ubicacionpre_path(@ubicacionpre.id)
       end
     end
-
   end
 end

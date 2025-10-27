@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 # The test environment is used exclusively to run your application's
@@ -10,7 +12,6 @@ Rails.application.configure do
 
   # While tests run files are not watched, reloading is not necessary.
   config.enable_reloading = false
-
 
   config.assets.css_compressor = nil
 
