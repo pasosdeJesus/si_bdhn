@@ -103,9 +103,8 @@ gem "heb412_gen", # Motor de nube y llenado de plantillas
 # path: "../heb412_gen-2.2"
 
 gem "sivel2_gen", # Motor para manejo de casos
-  git: "https://gitlab.com/pasosdeJesus/sivel2_gen.git",
-  branch: "v2.2"
-# path: "../sivel2_gen-2.2"
+  git: "https://gitlab.com/pasosdeJesus/sivel2_gen.git", branch: "v2.2"
+  #path: "../sivel2_gen-2.2"
 
 group :development, :test do
   gem "brakeman"
