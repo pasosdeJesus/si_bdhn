@@ -122,19 +122,24 @@ class Ability < Sivel2Gen::Ability
             habilidad.can(
               [
                 :read,
-                :new,
                 :edit,
                 :update,
-                :create,
-                :importa,
-                :importarrelatos,
                 :errores_importacion,
-                :nuevo,
-                :nueva,
                 :destroy,
               ],
               Sivel2Gen::Caso,
               {caso_usuario: {usuario_id: usuario.id}}
+            )
+            habilidad.can(
+              [
+                :new,
+                :nuevo,
+                :nueva,
+                :create,
+                :importa,
+                :importarrelatos,
+              ],
+              Sivel2Gen::Caso
             )
           else  
             habilidad.can(
